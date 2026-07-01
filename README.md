@@ -25,6 +25,27 @@ evidence back to the repo.
 [![validate](https://github.com/jumperz11/judge-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/jumperz11/judge-loop/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+This is what a judged slice looks like. Real output from
+[examples/demo-run/review-verdict.md](examples/demo-run/review-verdict.md):
+
+VERDICT: PASS
+
+RAW EVIDENCE REVIEWED
+- node --test: 3 passed, 0 failed, exit 0.
+- Diff touches only src/server.js (no change to /).
+- Reviewer lane returned APPROVE.
+
+GATE RESULTS
+G-001  /health returns 200          PASS
+G-002  body matches frozen shape    PASS
+G-003  / unchanged                  PASS
+
+KILL / CONTINUE: Continue.
+NEXT SLICE: S-002 - assert content-type: application/json on /health.
+
+No "looks good." Commands, exit codes, and frozen gates. The rest of this
+README explains how to get that verdict on your own repo.
+
 ```mermaid
 flowchart LR
     A["Fable<br/>architect, judge, gates"] --> B["Codex by default<br/>or any builder LLM"]
