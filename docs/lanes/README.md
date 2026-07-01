@@ -16,4 +16,4 @@ Reports are evidence, not verdicts. They should contain:
 - blockers
 - final lane status
 
-Codex reports evidence. Fable gives verdicts. The human decides.
+The builder reports evidence. Fable gives verdicts. The human decides.

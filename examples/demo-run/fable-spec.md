@@ -33,7 +33,7 @@
 - Reviewer confirms: route returns exact shape, status code 200, test passes,
   `/` unchanged. Returns APPROVE or numbered defects.
 
-## G. PASTE-READY CODEX BLOCK
+## G. PASTE-READY BUILDER BLOCK
 
 ```txt
 /goal: execute slice S-001 - add GET /health.

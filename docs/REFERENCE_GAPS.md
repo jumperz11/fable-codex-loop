@@ -10,7 +10,7 @@ Notes from comparing this kit with `DanMcInerney/architect-loop`.
 | Package validation | `tests/validate_repo.py`, `make validate` | Catches broken skill metadata, links, and markdown fences before publishing. |
 | Runtime scratch area | `.architect/` in `.gitignore` | Gives headless runs a safe place for dispatch blocks, JSONL logs, and worktrees. |
 | Frozen gate files | `docs/gates/` | Makes gate tampering easier to detect than one shared eval file alone. |
-| Lane reports | `docs/lanes/` | Gives every Codex lane a raw evidence file. |
+| Lane reports | `docs/lanes/` | Gives every builder lane a raw evidence file. |
 | Product/research artifacts | `docs/prd/`, `docs/research/` | Keeps research and product decisions out of the handoff file. |
 | Headless dispatch guide | `prompts/04-headless-dispatch.md` | Optional path for `codex exec`, worktrees, and unattended lanes. |
 | Research checkpoint | `prompts/05-fable-research.md` | Keeps discovery work separate from build work. |
@@ -19,7 +19,7 @@ Notes from comparing this kit with `DanMcInerney/architect-loop`.
 
 | Reference feature | Decision here | Why |
 | --- | --- | --- |
-| Always architect-owned worktree fan-out | Optional advanced mode | The main audience should succeed with paste-ready Fable + Codex first. |
+| Always architect-owned worktree fan-out | Optional advanced mode | The main audience should succeed with paste-ready Fable + builder flow first. |
 | Long cited design manifesto | Short README + gap notes | This repo is meant to be a usable kit and post companion, not a research paper. |
 | Separate installed research skill | One optional research prompt inside the same kit | Avoids making research feel mandatory for every build slice. |
 | Hard dependency on headless `codex exec` | Manual `/goal` mode first | Your original idea is subscription-native and easy to run without automation. |

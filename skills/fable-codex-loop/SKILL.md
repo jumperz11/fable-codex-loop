@@ -1,27 +1,28 @@
 ---
 name: fable-codex-loop
-description: Run the Fable + Codex scarce-architect build loop for software projects. Use when the user wants Claude Fable 5 to act as architect, judge, scope killer, or checkpoint; Codex to act as builder; repo docs to act as persistent memory; PR-sized slice planning; mandatory disagreement; frozen contracts; evaluator gates; reviewer lanes; raw handoffs; or a shareable AI-agent software workflow.
+description: Run the Fable + Builder scarce-architect loop for software projects. Use when the user wants Claude Fable 5 to act as architect, judge, scope killer, or checkpoint; Codex, Opus, GLM, Kimi, OpenClaw, or another coding agent to act as builder; repo docs to act as persistent memory; PR-sized slice planning; mandatory disagreement; frozen contracts; evaluator gates; reviewer lanes; raw handoffs; or a shareable AI-agent workflow.
 ---
 
-# Fable + Codex Loop
+# Fable + Builder Loop
 
 Use this skill to run or set up the workflow:
 
-> **Fable decides. Codex builds. The repo remembers. The human judges.**
+> **Fable decides. The builder builds. The repo remembers. The human judges.**
 
-Fable is used for scarce judgment, not endless typing. Codex does the sustained
-execution work and records raw evidence.
+Fable is used for scarce judgment, not endless typing. The selected builder does
+the sustained execution work and records raw evidence. Codex is the default
+builder path in this kit, but it is not required.
 
 ## Core rules
 
 1. Fable is for judgment, not typing.
-2. Codex is for building, testing, and evidence.
+2. The selected builder is for building, testing, and evidence.
 3. Repo docs are memory. If it is not in `docs/`, treat it as unknown.
 4. Disagreement is mandatory before implementation.
 5. Freeze success criteria before results exist.
 6. Keep work PR-sized.
 7. The builder never grades its own work.
-8. If Fable is unavailable or expensive, Codex continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.
+8. If Fable is unavailable or expensive, the builder continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.
 
 ## Set up a repo
 
@@ -58,13 +59,13 @@ Then produce:
 5. explicit out-of-scope
 6. max 3 non-conflicting builder lanes
 7. exactly one reviewer lane that writes no feature code
-8. paste-ready Codex block
+8. paste-ready builder block
 
 For exact output structure, read `references/fable-architect.md`.
 
-## Direct Codex as builder
+## Direct the builder
 
-Codex must:
+The selected builder must:
 
 1. disagree before coding
 2. cite real repo files checked
@@ -75,14 +76,14 @@ Codex must:
 7. update `docs/HANDOFF.md` with raw facts only
 8. record unresolved strategic decisions instead of inventing them silently
 
-For the paste-ready builder block, read `references/codex-builder.md`.
+For the paste-ready builder block, read `references/builder-contract.md`.
 
 ## Use headless dispatch only when it buys something
 
 Manual mode is the default: Fable writes a block and the human pastes it into
-Codex with `/goal`.
+the selected builder.
 
-For larger slices, Fable may prepare headless `codex exec` dispatch:
+For larger Codex slices, Fable may prepare headless `codex exec` dispatch:
 
 1. freeze gates in `docs/gates/<slice>.md`
 2. write builder blocks into `.architect/`
@@ -91,7 +92,8 @@ For larger slices, Fable may prepare headless `codex exec` dispatch:
 5. require every lane to write `docs/lanes/<slice>-<lane>.md`
 6. verify gates and lane boundaries before integration
 
-For the procedure, read `references/headless-dispatch.md`.
+For the procedure, read `references/headless-dispatch.md`. This headless path
+is Codex-specific. Other builders use the generic builder contract.
 
 ## Research checkpoint
 
@@ -99,15 +101,15 @@ Do not research every slice. Use research only when the team is deciding what
 to build, choosing technology, or checking facts too large for routine builder
 reality checks.
 
-Codex researchers gather. Fable designs lanes, verifies claims, and writes the
+Builder/researcher agents gather. Fable designs lanes, verifies claims, and writes the
 report. Final reports go in `docs/research/`; implementation briefs go in
 `docs/prd/`.
 
 For the procedure, read `references/fable-research.md`.
 
-## Review Codex output
+## Review builder output
 
-When Codex returns results:
+When the builder returns results:
 
 1. judge only raw evidence
 2. compare against `docs/EVALS.md`

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fable + Codex Loop Doctor.
+"""Fable + Builder Loop Doctor.
 
 Validates that a repo's memory (docs/) is healthy enough to start a build block.
 Exit code 0 = ready, 1 = not ready. No third-party dependencies.
@@ -97,7 +97,7 @@ def main(argv: list[str]) -> int:
     root = Path(argv[1]) if len(argv) > 1 else Path.cwd()
     color = sys.stdout.isatty()
 
-    print(_color(f"{BOLD}Fable + Codex Loop Doctor{RESET}", BOLD, color))
+    print(_color(f"{BOLD}Fable + Builder Loop Doctor{RESET}", BOLD, color))
     print(f"repo: {root.resolve()}\n")
 
     ok, problems = check(root, color)

@@ -10,7 +10,7 @@
 | --- | --- |
 | Current slice | `<slice id>` |
 | Freeze timestamp | `<YYYY-MM-DD HH:MM TZ>` |
-| Frozen by | `Fable + Codex + Human` |
+| Frozen by | `Fable + Builder + Human` |
 | Can change this slice? | `No, unless human explicitly approves` |
 
 ## Public interfaces

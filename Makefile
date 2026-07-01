@@ -1,7 +1,7 @@
 .PHONY: help init doctor doctor-example validate
 
 help:
-	@echo "Fable + Codex Loop"
+	@echo "Fable + Builder Loop"
 	@echo ""
 	@echo "  make init            Set up docs/ memory in the current repo"
 	@echo "  make doctor          Check if repo memory is ready for a build block"

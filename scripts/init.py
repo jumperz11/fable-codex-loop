@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Initialize repo memory for the Fable + Codex loop.
+"""Initialize repo memory for the Fable + Builder loop.
 
 Copies the docs/ memory files into a target repo if they do not already exist.
 Safe by default: never overwrites existing files unless --force is passed.
@@ -27,7 +27,7 @@ DOC_DIRS = [
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Set up Fable + Codex repo memory.")
+    parser = argparse.ArgumentParser(description="Set up Fable + Builder repo memory.")
     parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
     parser.add_argument("--force", action="store_true", help="Overwrite existing docs.")
     args = parser.parse_args()

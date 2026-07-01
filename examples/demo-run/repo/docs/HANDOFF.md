@@ -28,7 +28,7 @@
 | Slice attempted | `S-001` |
 | Started | `2026-06-22 12:18 Africa/Tunis` |
 | Ended | `2026-06-22 12:30 Africa/Tunis` |
-| Builder | `Codex` |
+| Builder | `GPT-5.5 Codex` |
 | Architect checkpoint | `Fable` |
 | Reviewer result | `APPROVE` |
 | Final status | `PASS` |
@@ -64,7 +64,7 @@
 
 | ID | Severity | Defect | Evidence | Owner | Status |
 | --- | --- | --- | --- | --- | --- |
-| `BUG-001` | `P2` | Content-type is not explicitly tested. | Review note | Codex | open |
+| `BUG-001` | `P2` | Content-type is not explicitly tested. | Review note | Builder | open |
 
 ## Next slice pointer
 

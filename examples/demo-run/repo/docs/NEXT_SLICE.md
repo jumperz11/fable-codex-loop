@@ -9,7 +9,7 @@
 | Slice ID | `S-002` |
 | Title | Assert `/health` content type |
 | Objective | Add a test that confirms `/health` responds with `application/json`. |
-| Owner | `Codex` |
+| Builder | `GPT-5.5 Codex` |
 | Architect checkpoint | `Fable` |
 | Human judge | `human` |
 

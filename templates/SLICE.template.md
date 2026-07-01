@@ -7,7 +7,7 @@
 | Slice ID | |
 | Title | |
 | Objective | |
-| Owner | Codex |
+| Builder | |
 | Architect checkpoint | Fable |
 | Human judge | |
 | Frozen gate file | docs/gates/<slice>.md |

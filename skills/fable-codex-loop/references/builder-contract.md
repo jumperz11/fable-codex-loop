@@ -1,9 +1,15 @@
-# Prompt 02 - Codex Builder
+# Prompt 02 - Builder Contract
 
-This is the base block Fable should adapt and paste to Codex.
+This is the base block Fable should adapt and paste to the selected builder.
+Codex is the default example, but any capable coding agent can use this
+contract.
 
 ```txt
 /goal: execute the Fable architect slice.
+
+You are the BUILDER for this slice.
+Builder: [GPT-5.5 Codex / Opus 4.8 / GLM 5.2 / other].
+Architect and judge: Fable.
 
 Rules:
 

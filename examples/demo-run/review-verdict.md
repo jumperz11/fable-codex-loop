@@ -34,7 +34,7 @@
 
 - `S-002`: assert `content-type: application/json` on `/health`.
 
-## H. PASTE-READY CODEX BLOCK
+## H. PASTE-READY BUILDER BLOCK
 
 ```txt
 /goal: execute slice S-002 - assert content-type on /health. (same phases)

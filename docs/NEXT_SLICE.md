@@ -9,7 +9,7 @@
 | Slice ID | `S-001` |
 | Title | `<short title>` |
 | Objective | `<one sentence>` |
-| Owner | `Codex` |
+| Builder | `<tool/model, e.g. GPT-5.5 Codex / Opus 4.8 / GLM 5.2>` |
 | Architect checkpoint | `Fable` |
 | Human judge | `<name>` |
 | Frozen gate file | `docs/gates/S-001.md` |

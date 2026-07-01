@@ -1,7 +1,10 @@
-# Prompt 04 - Headless Dispatch
+# Prompt 04 - Codex Headless Dispatch
 
 Use this only after the manual loop works. Headless dispatch is for larger
-slices where unattended Codex runs or parallel lanes are worth the overhead.
+slices where unattended Codex CLI runs or parallel lanes are worth the overhead.
+
+This prompt is Codex-specific. For Opus, GLM, Kimi, OpenClaw, or another
+builder, use the generic builder contract in `prompts/02-builder-contract.md`.
 
 You are FABLE, preparing headless Codex dispatch.
 
