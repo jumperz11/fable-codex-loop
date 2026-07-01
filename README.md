@@ -4,9 +4,15 @@
 
 JudgeLoop is a repo-local evidence protocol for AI-built software.
 
+It stops the builder model from grading itself.
+
+Architect decides.
+Builder builds.
+Repo stores proof.
+Human judges.
+
 Use a strong model as the architect and judge. Use any capable LLM as the
 builder. Freeze the gates before coding. Make the builder report raw evidence.
-Never let the builder grade itself.
 
 Fable is the recommended architect example. GPT-5.5 Codex is the default
 builder example. The protocol does not depend on either one.
@@ -42,6 +48,14 @@ python3 /path/to/judge-loop/scripts/init.py .
 python3 /path/to/judge-loop/scripts/doctor.py .
 ```
 
+Or use the tiny wrapper:
+
+```bash
+/path/to/judge-loop/bin/judgeloop init .
+# edit docs/NEXT_SLICE.md
+/path/to/judge-loop/bin/judgeloop doctor .
+```
+
 Then:
 
 1. Paste [`prompts/01-fable-architect.md`](prompts/01-fable-architect.md) into your architect model.
@@ -51,6 +65,16 @@ Then:
 5. Architect judges raw evidence against frozen gates and writes the next slice.
 
 That is the loop.
+
+---
+
+## Status
+
+`v0.1.0`: usable manual JudgeLoop kit.
+
+This is intentionally small: repo memory, prompts, stricter doctor checks, an
+installable skill, a tiny CLI wrapper, and a runnable demo. Headless automation
+is optional and still adapter-specific.
 
 ---
 
@@ -73,6 +97,22 @@ Use this when a task is big enough to deserve a PR-sized slice, explicit gates,
 and a real handoff.
 
 Skip it for tiny edits.
+
+## When Not To Use This
+
+Do not use JudgeLoop for:
+
+- one-line edits
+- throwaway prototypes
+- tasks where tests do not matter
+- solo vibe coding where speed matters more than auditability
+
+Use it when:
+
+- the task is PR-sized
+- correctness matters
+- multiple models are involved
+- you need evidence, not vibes
 
 ---
 
@@ -277,6 +317,7 @@ python3 scripts/doctor.py examples/demo-run/repo
 | [`docs/gates/`](docs/gates/) | Per-slice frozen gate files. |
 | [`docs/lanes/`](docs/lanes/) | Per-lane builder reports. |
 | [`docs/lanes/SCHEMA.md`](docs/lanes/SCHEMA.md) | Minimal lane-report schema and status values. |
+| [`bin/judgeloop`](bin/judgeloop) | Tiny wrapper for `init`, `doctor`, and `validate`. |
 
 If it is not in repo docs, it did not happen.
 
@@ -337,6 +378,7 @@ This checks:
 judge-loop/
 |-- README.md
 |-- Makefile
+|-- bin/judgeloop
 |-- install.sh
 |-- install.ps1
 |-- docs/

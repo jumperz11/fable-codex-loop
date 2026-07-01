@@ -20,5 +20,6 @@ doctor-example:
 validate:
 	python3 scripts/doctor.py examples/demo-run/repo
 	npm --prefix examples/demo-run/repo test
-	python3 -m py_compile scripts/doctor.py scripts/init.py tests/validate_repo.py
+	python3 -m py_compile scripts/doctor.py scripts/init.py tests/validate_repo.py bin/judgeloop
 	python3 tests/validate_repo.py
+	python3 bin/judgeloop doctor examples/demo-run/repo

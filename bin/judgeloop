@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+"""Tiny JudgeLoop command wrapper."""
+from __future__ import annotations
+
+import argparse
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def run(command: list[str]) -> int:
+    return subprocess.call(command)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(prog="judgeloop", description="JudgeLoop helper commands.")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    init_parser = sub.add_parser("init", help="Create JudgeLoop repo memory.")
+    init_parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
+    init_parser.add_argument("--force", action="store_true", help="Overwrite existing docs.")
+
+    doctor_parser = sub.add_parser("doctor", help="Check whether repo memory is ready.")
+    doctor_parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
+
+    validate_parser = sub.add_parser("validate", help="Validate this JudgeLoop kit checkout.")
+    validate_parser.add_argument(
+        "target",
+        nargs="?",
+        default=str(ROOT),
+        help="JudgeLoop checkout to validate. Defaults to this checkout.",
+    )
+
+    args = parser.parse_args()
+
+    if args.command == "init":
+        command = [sys.executable, str(ROOT / "scripts" / "init.py"), args.target]
+        if args.force:
+            command.append("--force")
+        return run(command)
+
+    if args.command == "doctor":
+        return run([sys.executable, str(ROOT / "scripts" / "doctor.py"), args.target])
+
+    if args.command == "validate":
+        return run(["make", "-C", args.target, "validate"])
+
+    parser.error(f"unknown command: {args.command}")
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

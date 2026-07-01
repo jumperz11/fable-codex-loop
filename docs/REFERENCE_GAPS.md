@@ -16,6 +16,7 @@ Notes from comparing this kit with `DanMcInerney/architect-loop`.
 | Concrete lane report | `examples/demo-run/repo/docs/lanes/S-001-lane-1.md` | Shows raw builder evidence with a final `STATUS`. |
 | Runnable demo project | `examples/demo-run/repo/src`, `test`, `package.json` | Lets people run the demo instead of only reading it. |
 | Stricter doctor | `scripts/doctor.py` checks slice gates, placeholders, handoff pointers, lane reports, and lane status. | Makes drift harder to miss. |
+| Tiny CLI wrapper | `bin/judgeloop init`, `doctor`, `validate` | Makes the kit feel like a tool without hiding the simple scripts. |
 | Product/research artifacts | `docs/prd/`, `docs/research/` | Keeps research and product decisions out of the handoff file. |
 | Headless dispatch guide | `prompts/04-headless-dispatch.md` | Optional path for `codex exec`, worktrees, and unattended lanes. |
 | Research checkpoint | `prompts/05-fable-research.md` | Keeps discovery work separate from build work. |
@@ -32,5 +33,5 @@ Notes from comparing this kit with `DanMcInerney/architect-loop`.
 ## Still Worth Adding Later
 
 - A stricter optional machine-readable lane report file, such as `lane-report.yaml`.
-- A `judge-loop` CLI wrapper around `init`, `doctor`, `freeze`, and `verify`.
+- Extend `bin/judgeloop` with `freeze` and `verify`.
 - A hosted HTML explainer page showing the full process visually.

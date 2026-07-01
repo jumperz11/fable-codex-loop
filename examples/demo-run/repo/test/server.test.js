@@ -44,6 +44,13 @@ test("GET /health returns 200", async () => {
   assert.equal(res.statusCode, 200);
 });
 
+test("/health returns application/json content type", async () => {
+  const res = await request("/health");
+
+  assert.equal(res.statusCode, 200);
+  assert.match(res.headers["content-type"], /application\/json/);
+});
+
 test("/health body has status=ok and integer uptime_s", async () => {
   const res = await request("/health");
   const body = JSON.parse(res.body);
