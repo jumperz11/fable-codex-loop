@@ -43,19 +43,26 @@ deciding what deserves to be typed.
 
 ```bash
 git clone https://github.com/jumperz11/judge-loop
-cd your-project
-/path/to/judge-loop/bin/judgeloop init .
+cd judge-loop
+export PATH="$PWD/bin:$PATH"
+cd /path/to/your-project
+judgeloop init .
 # fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
-/path/to/judge-loop/bin/judgeloop doctor .
+judgeloop doctor .
 ```
 
-Or call the scripts directly:
+Fallback: `python3 /path/to/judge-loop/scripts/init.py .` and `python3 /path/to/judge-loop/scripts/doctor.py .`
+
+## Install The CLI
+
+From your `judge-loop` checkout:
 
 ```bash
-python3 /path/to/judge-loop/scripts/init.py .
-# fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
-python3 /path/to/judge-loop/scripts/doctor.py .
+export PATH="$PWD/bin:$PATH"
 ```
+
+Then `judgeloop init .`, `judgeloop doctor .`, and `judgeloop validate .` work
+from your shell.
 
 Then:
 
@@ -150,7 +157,13 @@ git clone https://github.com/jumperz11/judge-loop
 cd judge-loop
 ```
 
-### 2. Optional: install the Codex skill
+### 2. Install the CLI for this shell
+
+```bash
+export PATH="$PWD/bin:$PATH"
+```
+
+### 3. Optional: install the Codex skill
 
 ```bash
 ./install.sh
@@ -165,13 +178,15 @@ Windows:
 Existing skill folders are backed up automatically. Use `--force` or `-Force`
 only when you want to replace without a backup.
 
-### 3. Add loop memory to your project
+### 4. Add loop memory to your project
 
 From inside the project you want to work on:
 
 ```bash
-python3 /path/to/judge-loop/scripts/init.py .
+judgeloop init .
 ```
+
+Fallback: `python3 /path/to/judge-loop/scripts/init.py .`
 
 This creates:
 
@@ -187,7 +202,7 @@ docs/prd/
 docs/research/
 ```
 
-### 4. Write one small slice and gate file
+### 5. Write one small slice and gate file
 
 Edit the next objective:
 
@@ -216,11 +231,13 @@ docs/gates/<slice>.md
 Freshly initialized repos are expected to be `NOT READY` until placeholders are
 filled, a gate file exists, and the required evidence docs are no longer blank.
 
-### 5. Check readiness
+### 6. Check readiness
 
 ```bash
-python3 /path/to/judge-loop/scripts/doctor.py .
+judgeloop doctor .
 ```
+
+Fallback: `python3 /path/to/judge-loop/scripts/doctor.py .`
 
 If it says `READY`, start the loop.
 
