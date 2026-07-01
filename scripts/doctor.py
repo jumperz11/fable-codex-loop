@@ -30,6 +30,7 @@ RESET = "\033[0m"
 PLACEHOLDER_PATTERNS = [
     r"<project name>",
     r"<human owner>",
+    r"<slice>",
     r"<one sentence",
     r"<slice id",
     r"<short title>",

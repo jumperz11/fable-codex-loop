@@ -26,6 +26,26 @@ DOC_DIRS = [
 ]
 
 
+def ensure_architect_gitignore(target: Path) -> str:
+    """Ensure JudgeLoop runtime files stay out of git."""
+    gitignore = target / ".gitignore"
+    entry = ".architect/"
+
+    if not gitignore.exists():
+        gitignore.write_text(f"{entry}\n", encoding="utf-8")
+        return "created .gitignore (.architect/)"
+
+    text = gitignore.read_text(encoding="utf-8", errors="replace")
+    lines = [line.strip() for line in text.splitlines()]
+    if entry in lines or ".architect" in lines:
+        return "skipped .gitignore (.architect/ already ignored)"
+
+    suffix = "" if text.endswith("\n") or not text else "\n"
+    with gitignore.open("a", encoding="utf-8") as handle:
+        handle.write(f"{suffix}{entry}\n")
+    return "updated .gitignore (.architect/)"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Set up JudgeLoop repo memory.")
     parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
@@ -66,6 +86,7 @@ def main() -> int:
         print(f"created docs/{name}/")
     for name in skipped_dirs:
         print(f"skipped docs/{name}/ (already exists)")
+    print(ensure_architect_gitignore(target))
 
     print("\nRepo memory ready. Next: fill docs/NEXT_SLICE.md, then run scripts/doctor.py")
     return 0
