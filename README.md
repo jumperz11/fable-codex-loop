@@ -2,221 +2,305 @@
 
 > **Fable decides. Codex builds. The repo remembers. You judge.**
 
-A small, opinionated system for using Claude Fable 5 as scarce judgment and
-GPT-5.5 Codex as sustained execution.
+Use Claude Fable 5 as the architect and judge. Use GPT-5.5 Codex as the
+builder. Keep memory, gates, and results in the repo so every work block can
+start from facts instead of chat history.
 
-The point is not to make Fable type all day. The point is to spend Fable only
-where expensive intelligence changes the outcome: architecture, scope control,
-arbitration, evidence review, and next-slice planning.
-
-Fable is the edge. Codex is the hands. The repo is the brain.
-
----
-
-## Why this exists
-
-Fable 5 is powerful, but access and cost can change. On July 1, 2026, Anthropic
-said Fable 5 would return globally across Claude surfaces, with limited weekly
-included usage for some plans through July 7 and usage credits after that.
-
-So the right workflow is not:
-
-> use Fable for everything
-
-The right workflow is:
-
-> use Fable only at checkpoints where judgment matters
-
-Let Codex do the long loops: edits, tests, refactors, terminal work, and raw
-evidence collection. Let Fable decide whether the work was worth doing and
-whether the result actually passed.
-
----
-
-## 60-second quickstart
-
-```bash
-git clone https://github.com/jumperz11/fable-codex-loop my-project
-cd my-project
-
-./install.sh    # optional: install the Codex skill globally
-make init      # create docs/ repo memory
-# edit docs/NEXT_SLICE.md with your first PR-sized task
-make doctor    # check the repo is ready for a build block
-```
-
-Then run the loop:
-
-1. Paste [`prompts/01-fable-architect.md`](prompts/01-fable-architect.md) to **Fable**.
-2. Paste Fable's generated block to **Codex** using [`prompts/02-codex-builder.md`](prompts/02-codex-builder.md).
-3. Paste Codex's raw results back to Fable with [`prompts/03-fable-review.md`](prompts/03-fable-review.md).
-4. Repeat. You make the kill/continue calls.
-
-Want to see it first? Read the worked example in
-[`examples/demo-run/`](examples/demo-run/README.md).
-
-Want the comparison against another implementation? Read
-[`docs/REFERENCE_GAPS.md`](docs/REFERENCE_GAPS.md).
-
----
-
-## What Fable does
-
-In this workflow, **Fable is the architect and judge**.
-
-Fable does not write feature code by default. Its job is to:
-
-- read repo memory
-- rule on disagreements
-- freeze contracts before implementation
-- keep work PR-sized
-- define what is out of scope
-- judge raw evidence against frozen gates
-- write the next slice
-- stop scope creep
-
-Fable time is checkpoint time.
-
----
-
-## What Codex does
-
-**Codex is the builder.**
-
-Codex edits files, runs commands, writes tests, verifies APIs and formats against
-reality, records raw results, and updates repo memory.
-
-Codex reports evidence. Fable gives verdicts. The human decides.
-
----
-
-## The loop
+[![Repo](https://img.shields.io/badge/GitHub-jumperz11%2Ffable--codex--loop-181717?logo=github)](https://github.com/jumperz11/fable-codex-loop)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ```txt
-[FABLE: edge] -- spec + verdicts --> [CODEX: hands] -- raw results --> [REPO: brain]
-      ^                                |                              |
-      |                                v                              |
-      +-------------------------- [YOU: judge] <----------------------+
+[FABLE] writes the spec and judges evidence
+   |
+   v
+[CODEX] builds, tests, and records raw results
+   |
+   v
+[REPO DOCS] remember decisions, contracts, gates, and handoffs
+   |
+   v
+[YOU] make the final kill / continue call
 ```
 
+The point is simple: do not spend frontier-model time on typing. Spend it on
+deciding what deserves to be typed.
+
 ---
 
-## Repo memory
+## Why Use This
 
-| File | Role |
+Fable is strong at judgment, planning, arbitration, and long-horizon review.
+Codex is strong at editing files, running commands, testing, and staying in the
+terminal for a long time.
+
+This loop separates those jobs.
+
+| Bad default | Better loop |
 | --- | --- |
-| `docs/HANDOFF.md` | Raw state after every work block. |
-| `docs/CONTRACTS.md` | Frozen APIs, schemas, interfaces, file formats, ownership. |
-| `docs/DECISIONS.md` | Accepted and rejected decisions with reasons. |
-| `docs/EVALS.md` | Success gates frozen before results exist. |
-| `docs/NEXT_SLICE.md` | The next small, PR-sized mission. |
-| `docs/gates/` | Per-slice frozen gate files. Builder edits here fail the slice. |
-| `docs/lanes/` | Per-lane raw reports from Codex. Evidence only, no verdicts. |
-| `docs/prd/` | Optional short PRDs produced from research or product judgment. |
-| `docs/research/` | Optional research reports. |
+| One model plans, codes, and grades itself. | Fable judges. Codex builds. |
+| Success criteria move after seeing results. | Gates freeze before coding. |
+| Context lives in chat scrollback. | State lives in `docs/`. |
+| The builder says "looks good." | The repo stores raw commands and exit codes. |
+| Expensive model types for hours. | Expensive model checks high-leverage decisions. |
 
-If it is not in repo memory, it did not happen.
+Use this when a task is big enough to deserve a PR-sized slice, explicit gates,
+and a real handoff.
 
-`make doctor` checks these docs before a build block starts.
+Skip it for tiny edits.
 
 ---
 
-## Two modes
+## First Run
 
-**Manual mode** is the default:
+### 1. Clone
 
-1. Fable writes the architect block.
-2. You paste it into Codex with `/goal`.
-3. Codex updates repo memory with raw evidence.
-4. You paste the evidence back to Fable for judgment.
+```bash
+git clone https://github.com/jumperz11/fable-codex-loop
+cd fable-codex-loop
+```
 
-**Headless mode** is optional:
-
-- Fable writes builder blocks into `.architect/`.
-- One `codex exec` runs per lane.
-- Parallel lanes use separate git worktrees.
-- Each lane writes a report to `docs/lanes/`.
-- Fable verifies gates and boundaries before anything is integrated.
-
-Use manual mode first. Use headless mode when a slice is big enough that
-parallel lanes and unattended runs actually buy you something.
-
----
-
-## The 9 rules
-
-1. **Fable is for judgment, not typing.**
-2. **Codex is for building, testing, and evidence.**
-3. **Repo docs are memory.** Not in `docs/` = unknown.
-4. **The builder never grades its own work.**
-5. **Disagreement is mandatory.** Silent compliance = failure.
-6. **Acceptance criteria freeze before results exist.**
-7. **If Fable is down or expensive, Codex continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.**
-8. **Builder edits to frozen gates fail the slice.**
-9. **Parallel lanes need disjoint file ownership or they do not run in parallel.**
-
-If the workflow dies when Fable is unavailable, you built dependency, not
-leverage.
-
----
-
-## Install as a Codex skill
+### 2. Optional: install the Codex skill
 
 ```bash
 ./install.sh
 ```
 
-Then ask Codex:
+Windows:
+
+```powershell
+.\install.ps1
+```
+
+### 3. Add loop memory to your project
+
+From inside the project you want to work on:
+
+```bash
+python3 /path/to/fable-codex-loop/scripts/init.py .
+```
+
+This creates:
 
 ```txt
-Use the fable-codex-loop skill to set up this repo for Fable architecture.
+docs/HANDOFF.md
+docs/CONTRACTS.md
+docs/DECISIONS.md
+docs/EVALS.md
+docs/NEXT_SLICE.md
+docs/gates/
+docs/lanes/
+docs/prd/
+docs/research/
 ```
+
+### 4. Write one small slice
+
+Edit:
+
+```txt
+docs/NEXT_SLICE.md
+```
+
+Example:
+
+```txt
+Add GET /health returning:
+{"status":"ok","uptime_s":<integer>}
+
+Out of scope:
+- auth
+- metrics
+- deployment
+```
+
+### 5. Check readiness
+
+```bash
+python3 /path/to/fable-codex-loop/scripts/doctor.py .
+```
+
+If it says `READY`, start the loop.
 
 ---
 
-## What's in here
+## The Loop
+
+### Step A: Fable architects
+
+Paste this into Fable:
 
 ```txt
-.
+prompts/01-fable-architect.md
+```
+
+Fable reads the repo docs, freezes the slice, calls out risks, and ends with a
+paste-ready Codex block.
+
+### Step B: Codex builds
+
+Paste Fable's block into Codex.
+
+Codex must:
+
+- disagree before coding
+- cite real repo files
+- verify APIs, schemas, commands, and formats
+- freeze contracts and gates before implementation
+- build the slice
+- run tests
+- write raw evidence to `docs/HANDOFF.md` and `docs/lanes/`
+
+### Step C: Fable reviews
+
+After Codex finishes, paste this into Fable:
+
+```txt
+prompts/03-fable-review.md
+```
+
+Give Fable the raw results:
+
+- `docs/HANDOFF.md`
+- `docs/gates/<slice>.md`
+- `docs/lanes/<slice>-*.md`
+- test output
+- git diff summary
+
+Fable returns:
+
+```txt
+PASS / FAIL / PARTIAL
+```
+
+Then Fable writes the next slice.
+
+Repeat.
+
+---
+
+## The Core Files
+
+| File | Purpose |
+| --- | --- |
+| [`prompts/01-fable-architect.md`](prompts/01-fable-architect.md) | Start a Fable checkpoint. |
+| [`prompts/02-codex-builder.md`](prompts/02-codex-builder.md) | Base Codex builder contract. |
+| [`prompts/03-fable-review.md`](prompts/03-fable-review.md) | Review Codex output with Fable. |
+| [`prompts/04-headless-dispatch.md`](prompts/04-headless-dispatch.md) | Optional `codex exec` / worktree mode. |
+| [`prompts/05-fable-research.md`](prompts/05-fable-research.md) | Optional research checkpoint. |
+| [`docs/HANDOFF.md`](docs/HANDOFF.md) | Raw state after every work block. |
+| [`docs/CONTRACTS.md`](docs/CONTRACTS.md) | Frozen APIs, schemas, interfaces, commands. |
+| [`docs/EVALS.md`](docs/EVALS.md) | Scoreboard for success gates. |
+| [`docs/gates/`](docs/gates/) | Per-slice frozen gate files. |
+| [`docs/lanes/`](docs/lanes/) | Per-lane Codex reports. |
+
+If it is not in repo docs, it did not happen.
+
+---
+
+## Manual vs Headless
+
+Most people should start with **manual mode**.
+
+| Mode | Use when | How |
+| --- | --- | --- |
+| Manual | You want to watch the run and paste between Fable and Codex. | Fable prompt -> Codex `/goal` -> Fable review. |
+| Headless | The slice is big enough for unattended or parallel lanes. | Fable writes `.architect/` dispatch blocks; `codex exec` runs per lane. |
+
+Manual mode is the product. Headless mode is the upgrade.
+
+---
+
+## The Rules
+
+1. Fable is for judgment, not typing.
+2. Codex is for building, testing, and evidence.
+3. Repo docs are memory.
+4. The builder never grades its own work.
+5. Disagreement is mandatory.
+6. Gates freeze before results exist.
+7. Builder edits to frozen gates fail the slice.
+8. Parallel lanes need disjoint file ownership.
+9. If Fable is down or expensive, Codex continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.
+
+That last rule matters. If the workflow dies when Fable is unavailable, you
+built dependency, not leverage.
+
+---
+
+## Validate The Kit
+
+Inside this repo:
+
+```bash
+make validate
+```
+
+This checks:
+
+- demo repo memory
+- Python scripts
+- skill metadata
+- markdown links
+- code fences
+
+---
+
+## What Is Included
+
+```txt
+fable-codex-loop/
 |-- README.md
 |-- Makefile
-|-- scripts/
-|   |-- doctor.py
-|   `-- init.py
-|-- docs/
-|-- prompts/
-|-- tests/
 |-- install.sh
 |-- install.ps1
-|-- examples/demo-run/
+|-- docs/
+|-- prompts/
+|-- scripts/
 |-- skills/fable-codex-loop/
+|-- examples/demo-run/
 |-- templates/
-`-- .github/workflows/
+`-- tests/
+```
+
+See the worked example:
+
+```txt
+examples/demo-run/
+```
+
+See what was borrowed and what stayed intentionally simpler:
+
+```txt
+docs/REFERENCE_GAPS.md
 ```
 
 ---
 
 ## FAQ
 
+**Do I need API keys?**
+
+No by default. The intended flow uses Claude/Fable and Codex subscriptions. The
+headless mode can use `codex exec` if you have the Codex CLI set up.
+
 **Do I need two different models?**
 
-No. The roles matter more than the names. But using a separate architect/judge
-model helps because the builder does not get to grade itself.
+No. The roles matter more than the names. But a separate architect/judge model
+helps because the builder does not get to grade itself.
 
-**Why not let Fable build too?**
+**Why not let Fable code too?**
 
-You can, but that is usually the expensive path. Spend frontier-model time on
-decisions, arbitration, and evidence review. Spend builder time on typing.
+You can. It is usually a waste. Use Fable where judgment changes the outcome:
+scope, architecture, arbitration, evidence review, and next-slice planning.
 
-**What happens if Fable refuses, times out, or becomes expensive mid-project?**
+**What if Fable is limited, down, or expensive?**
 
-Codex can continue only from frozen specs. Any strategic decision, changed gate,
-or unresolved disagreement gets recorded in `docs/HANDOFF.md` for the next Fable
-checkpoint.
+Codex continues only from frozen specs. Any strategic decision or unresolved
+disagreement gets written to `docs/HANDOFF.md` for the next Fable checkpoint.
 
-**Is this tied to a specific language or framework?**
+**Is this tied to one language or framework?**
 
-No. The loop is language-agnostic.
+No. It is just repo memory, frozen gates, and role separation.
 
 ---
 
