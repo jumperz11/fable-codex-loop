@@ -7,22 +7,22 @@ description: Run JudgeLoop for software projects. Use when the user wants Claude
 
 Use this skill to run or set up the workflow:
 
-> **Architect decides. Builder builds. Repo stores proof. Human judges.**
+> **Fable decides. Codex builds by default. Repo stores proof. Human judges.**
 
-The architect model is used for scarce judgment, not endless typing. The
-selected builder does the sustained execution work and records raw evidence.
-Codex is the default builder path in this kit, but it is not required.
+Fable is used for scarce judgment, not endless typing. The selected builder
+does the sustained execution work and records raw evidence. Codex is the default
+builder path in this kit, but it is not required.
 
 ## Core rules
 
-1. The architect model is for judgment, not typing.
+1. Fable is for judgment, not typing.
 2. The selected builder is for building, testing, and evidence.
 3. Repo docs are memory. If it is not in `docs/`, treat it as unknown.
 4. Disagreement is mandatory before implementation.
 5. Freeze success criteria before results exist.
 6. Keep work PR-sized.
 7. The builder never grades its own work.
-8. If the architect model is unavailable or expensive, the builder continues only from frozen specs and records unresolved decisions for the next architect checkpoint.
+8. If Fable is unavailable or expensive, the builder continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.
 
 ## Set up a repo
 
@@ -80,11 +80,10 @@ For the paste-ready builder block, read `references/builder-contract.md`.
 
 ## Use headless dispatch only when it buys something
 
-Manual mode is the default: the architect writes a block and the human pastes
-it into the selected builder.
+Manual mode is the default: Fable writes a block and the human pastes it into
+the selected builder.
 
-For larger Codex slices, the architect may prepare headless `codex exec`
-dispatch:
+For larger Codex slices, Fable may prepare headless `codex exec` dispatch:
 
 1. freeze gates in `docs/gates/<slice>.md`
 2. write builder blocks into `.architect/`
@@ -102,9 +101,9 @@ Do not research every slice. Use research only when the team is deciding what
 to build, choosing technology, or checking facts too large for routine builder
 reality checks.
 
-Builder/researcher LLMs gather. The architect designs lanes, verifies claims,
-and writes the report. Final reports go in `docs/research/`; implementation
-briefs go in `docs/prd/`.
+Builder/researcher LLMs gather. Fable designs lanes, verifies claims, and
+writes the report. Final reports go in `docs/research/`; implementation briefs
+go in `docs/prd/`.
 
 For the procedure, read `references/research-checkpoint.md`.
 

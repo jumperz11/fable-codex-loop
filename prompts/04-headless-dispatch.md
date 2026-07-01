@@ -6,7 +6,7 @@ slices where unattended Codex CLI runs or parallel lanes are worth the overhead.
 This prompt is Codex-specific. For Opus, GLM, Kimi, DeepSeek, Qwen, or another
 LLM builder, use the generic builder contract in `prompts/02-builder-contract.md`.
 
-You are the ARCHITECT, preparing headless Codex dispatch.
+You are FABLE, preparing headless Codex dispatch.
 
 Use this only if the slice is too large for one interactive Codex session.
 Otherwise say: "Use manual mode."
@@ -63,4 +63,4 @@ Post-flight checks:
 6. Merge only passing lanes.
 7. Update `docs/HANDOFF.md` with raw facts.
 
-Do not let builders commit or merge. Integration belongs to architect + human.
+Do not let builders commit or merge. Integration belongs to Fable + human.

@@ -1,10 +1,11 @@
 # LLM Builders
 
-The architect model judges. The builder can be any LLM that can implement the
-slice and report raw evidence.
+Fable is the architect and judge. The builder can be any LLM that can implement
+the slice and report raw evidence.
 
 Codex is the default builder in this kit because it has a good terminal workflow
-and a clean headless path with `codex exec`. It is not required.
+and a clean headless path with `codex exec`. It is not required; only the
+builder role is swappable.
 
 ## Builder Requirements
 
@@ -38,13 +39,13 @@ and verify it.
 
 ## Adapter Template
 
-Paste this after the architect writes the slice:
+Paste this after Fable writes the slice:
 
 ```txt
 You are the BUILDER for this slice.
 
-Architect: [ARCHITECT MODEL].
-Judge: architect + human.
+Architect: Fable.
+Judge: Fable + human.
 Repo docs are memory.
 
 You do not grade your own work.
@@ -66,7 +67,7 @@ After coding:
 1. update `docs/HANDOFF.md` with raw facts only
 2. write `docs/lanes/<slice>-<lane>.md`
 3. include commands, exit codes, changed files, and blockers
-4. do not claim PASS; verdicts belong to the architect and the human
+4. do not claim PASS; verdicts belong to Fable and the human
 ```
 
 ## When To Use Codex-Specific Headless Mode
@@ -76,7 +77,7 @@ Use `prompts/04-headless-dispatch.md` only when the builder is Codex CLI.
 For every other builder, use the normal manual loop:
 
 ```txt
-architect prompt -> builder contract -> architect review prompt
+Fable architect prompt -> builder contract -> Fable review prompt
 ```
 
 The loop is model-agnostic. The enforcement comes from repo memory, frozen

@@ -1,4 +1,4 @@
 interface:
   display_name: "JudgeLoop"
-  short_description: "Run any strong architect model with any LLM builder using repo memory."
+  short_description: "Run Fable as architect/judge and Codex or any LLM as builder."
   default_prompt: "Set up or run JudgeLoop for this repo."
