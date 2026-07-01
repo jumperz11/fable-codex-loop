@@ -22,6 +22,7 @@ role as long as it can edit files, run checks, or produce patches with raw
 evidence back to the repo.
 
 [![Repo](https://img.shields.io/badge/GitHub-jumperz11%2Fjudge--loop-181717?logo=github)](https://github.com/jumperz11/judge-loop)
+[![validate](https://github.com/jumperz11/judge-loop/actions/workflows/validate.yml/badge.svg)](https://github.com/jumperz11/judge-loop/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ```mermaid
@@ -43,17 +44,17 @@ deciding what deserves to be typed.
 ```bash
 git clone https://github.com/jumperz11/judge-loop
 cd your-project
-python3 /path/to/judge-loop/scripts/init.py .
-# fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
-python3 /path/to/judge-loop/scripts/doctor.py .
-```
-
-Or use the tiny wrapper:
-
-```bash
 /path/to/judge-loop/bin/judgeloop init .
 # fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
 /path/to/judge-loop/bin/judgeloop doctor .
+```
+
+Or call the scripts directly:
+
+```bash
+python3 /path/to/judge-loop/scripts/init.py .
+# fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
+python3 /path/to/judge-loop/scripts/doctor.py .
 ```
 
 Then:
@@ -70,7 +71,7 @@ That is the loop.
 
 ## Status
 
-`v0.1.3`: usable manual JudgeLoop kit.
+`v0.1.4`: usable manual JudgeLoop kit.
 
 This is intentionally small: repo memory, prompts, stricter doctor checks, an
 installable skill, a tiny CLI wrapper, and a runnable demo. Headless automation
