@@ -1,4 +1,10 @@
-# Step 3 - Architect Review
+# Step 3 - Fable Verdict
+
+| Field | Value |
+| --- | --- |
+| Slice | S-001 |
+| Judge | Fable |
+| Verdict | PASS |
 
 ## A. VERDICT
 
@@ -8,7 +14,8 @@
 
 - `node --test`: 3 passed, 0 failed, exit 0.
 - Diff touches only `src/server.js` (no change to `/`).
-- Reviewer lane returned `APPROVE`.
+- Luna reviewer worker returned `APPROVE` as evidence.
+- `judgeloop verify .` confirmed the gate lock.
 
 ## C. GATE RESULTS
 
@@ -34,8 +41,10 @@
 
 - `S-002`: assert `content-type: application/json` on `/health`.
 
-## H. PASTE-READY BUILDER BLOCK
+## H. PASTE-READY TERRA BLOCK
 
 ```txt
-/goal: execute slice S-002 - assert content-type on /health. (same phases)
+/goal: execute Fable's frozen S-002 slice as Terra. Report evidence only.
 ```
+
+The human chooses to continue. Fable remains the sole protocol judge.

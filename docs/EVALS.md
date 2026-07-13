@@ -4,6 +4,10 @@
 > Do not move goalposts after seeing output.
 > Per-slice frozen gate files live in `docs/gates/`.
 
+| Field | Value |
+| --- | --- |
+| Current slice | `<slice id>` |
+
 ## Current slice gates
 
 | Gate ID | Requirement | Verification command / method | Pass condition | Status |
@@ -27,7 +31,7 @@
 - No silent scope additions.
 - No editing frozen contracts after results exist.
 - No claiming success without raw command output or inspection evidence.
-- No builder self-grading.
+- No worker self-grading. Sol, Terra, and Luna never issue protocol verdicts.
 - No "mostly works" PASS.
 
 ## Results history

@@ -1,4 +1,7 @@
-# Step 1 - Architect Model
+# Step 1 - Fable Checkpoint
+
+Fable is the sole architect and judge. Sol implements; Luna reviews. Both are
+workers powered by GPT-5.5 Codex in this example.
 
 ## A. STATE FROM MEMORY
 
@@ -10,7 +13,7 @@
 
 1. "status and uptime" is underspecified. Freezing the response shape now:
    `{ "status": "ok", "uptime_s": <number> }`.
-2. Risk: builder may add a logging/metrics framework. Out of scope.
+2. Risk: a worker may add a logging/metrics framework. Out of scope.
 3. Risk: uptime unit ambiguity. Decision: integer seconds since process start.
 
 ## C. FROZEN CONTRACTS TO VERIFY
@@ -23,33 +26,36 @@
 - Slice `S-001`: add `GET /health` returning the frozen JSON shape + one test.
 - Out of scope: auth, metrics libs, changing `/`.
 
-## E. BUILDER LANES
+## E. WORKER ASSIGNMENTS
 
-- One lane only (small slice). `lane-1`: edit `src/server.js` + add test.
-- No parallel lanes needed; nothing is independent enough to split.
+- Sol: edit `src/server.js`, add tests, and report raw evidence.
+- Luna: review only and return APPROVE or DEFECTS.
 
 ## F. REVIEWER INSTRUCTIONS
 
 - Reviewer confirms: route returns exact shape, status code 200, test passes,
   `/` unchanged. Returns APPROVE or numbered defects.
 
-## G. PASTE-READY BUILDER BLOCK
+## G. PASTE-READY SOL BLOCK
 
 ```txt
-/goal: execute slice S-001 - add GET /health.
+/goal: execute Fable's frozen slice S-001 - add GET /health.
+
+Worker: Sol.
+Engine: GPT-5.5 Codex.
+Fable is the sole judge. Do not issue a protocol verdict.
 
 PHASE 0: disagree first. List plan, ambiguities, files checked, and the two
 reality checks (process.uptime units, test runner). No silent scope additions.
 
-PHASE 1: freeze contract in docs/CONTRACTS.md:
-  GET /health -> 200 application/json {"status":"ok","uptime_s":<int seconds>}
-  Freeze gates in docs/EVALS.md.
+PHASE 1: run judgeloop verify . and stop if the gate lock fails.
 
-PHASE 2: lane-1 only. Edit src/server.js. Do not change "/".
+PHASE 2: Sol implementation lane only. Edit src/server.js. Do not change "/".
 
-PHASE 3: reviewer lane (no feature code) returns APPROVE or DEFECTS.
+PHASE 3: Luna reviewer worker (no feature code) returns APPROVE or DEFECTS.
 
 PHASE 4: run `node --test`. Capture raw output + exit code.
 
-PHASE 5: update docs/HANDOFF.md with raw facts only.
+PHASE 5: write the Sol lane report and update HANDOFF with raw facts only.
+End with STATUS: COMPLETE. Do not write VERDICT: PASS / FAIL / PARTIAL.
 ```

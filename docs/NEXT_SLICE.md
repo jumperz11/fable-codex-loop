@@ -9,10 +9,12 @@
 | Slice ID | `S-001` |
 | Title | `<short title>` |
 | Objective | `<one sentence>` |
-| Builder | `<tool/model, e.g. GPT-5.5 Codex / Opus 4.8 / GLM 5.2>` |
-| Architect checkpoint | `<architect model>` |
-| Human judge | `<name>` |
+| Workers | `<workers: Sol, Terra, and/or Luna>` |
+| Worker engine | `<engine/model; GPT-5.5 Codex by default>` |
+| Judge | `Fable` |
+| Human owner | `<human owner>` |
 | Frozen gate file | `docs/gates/S-001.md` |
+| Gate lock | `docs/gates/S-001.sha256` |
 
 ## Acceptance criteria
 
@@ -23,8 +25,9 @@
 ## Gate file
 
 Before coding starts, copy the acceptance criteria and verification commands to
-`docs/gates/<slice>.md`. After freeze, that file is read-only unless the human
-explicitly approves a change.
+`docs/gates/<slice>.md`, then run `judgeloop freeze .`. The gate and its
+`.sha256` lock are read-only for workers. Only Fable may review a revision and
+explicitly re-freeze it before workers resume.
 
 ## Explicit out-of-scope
 
@@ -42,9 +45,9 @@ explicitly approves a change.
 
 | Lane | Responsibility | Allowed files | Must not touch |
 | --- | --- | --- | --- |
-| `lane-1` | `<task>` | `<paths>` | `<paths>` |
-| `lane-2` | `<task>` | `<paths>` | `<paths>` |
-| `reviewer` | `Review only, no feature code` | `docs/HANDOFF.md only if reporting` | `feature files` |
+| `Sol` | `<task or not assigned>` | `<paths>` | `<paths>` |
+| `Terra` | `<task or not assigned>` | `<paths>` | `<paths>` |
+| `Luna` | `Review or implementation worker` | `<paths>` | `<paths>` |
 
 ## Reviewer requirements
 
@@ -62,4 +65,5 @@ DEFECTS:
 2. <specific defect>
 ```
 
-Nothing merges without reviewer approval.
+`APPROVE` and `DEFECTS` are reviewer evidence, not protocol verdicts. Fable
+alone issues `PASS`, `FAIL`, or `PARTIAL`. The human then chooses ship or stop.

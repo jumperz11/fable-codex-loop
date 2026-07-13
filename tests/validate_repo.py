@@ -10,6 +10,15 @@ ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
 MAX_DESC = 1024
 errors: list[str] = []
+FORBIDDEN_ROLE_PHRASES = [
+    "human judges",
+    "human judge",
+    "human is the final judge",
+    "verdicts belong to fable and the human",
+    "judge: fable + human",
+    "architect + builder",
+    "another strong model to act as architect",
+]
 
 
 def read(path: Path) -> str:
@@ -67,6 +76,40 @@ def check_local_links(path: Path) -> None:
             errors.append(f"{path.relative_to(ROOT)}: link '{label}' -> {target} missing")
 
 
+def check_role_contract() -> None:
+    required = {
+        "README.md": ["Fable always judges", "Sol, Terra, and Luna", "judgeloop freeze", "docs/verdicts/"],
+        "prompts/01-architect-checkpoint.md": ["sole ARCHITECT and JUDGE", "Sol, Terra, Luna"],
+        "prompts/02-builder-contract.md": ["Worker: [Sol / Terra / Luna]", "may not issue"],
+        "prompts/03-architect-review.md": ["sole JUDGE", "docs/verdicts/<slice>.md"],
+        "skills/judge-loop/SKILL.md": ["Fable is the sole architect", "Sol, Terra, and Luna are workers only"],
+    }
+    for rel, phrases in required.items():
+        text = read(ROOT / rel)
+        for phrase in phrases:
+            if phrase not in text:
+                errors.append(f"{rel}: missing fixed-role phrase: {phrase}")
+
+    for path in ROOT.rglob("*.md"):
+        if ".git" in path.parts:
+            continue
+        lower = read(path).lower()
+        for phrase in FORBIDDEN_ROLE_PHRASES:
+            if phrase in lower:
+                errors.append(f"{path.relative_to(ROOT)}: forbidden role phrase: {phrase}")
+
+    mirrors = {
+        "prompts/01-architect-checkpoint.md": "skills/judge-loop/references/architect-checkpoint.md",
+        "prompts/02-builder-contract.md": "skills/judge-loop/references/builder-contract.md",
+        "prompts/03-architect-review.md": "skills/judge-loop/references/architect-review.md",
+        "prompts/04-headless-dispatch.md": "skills/judge-loop/references/headless-dispatch.md",
+        "prompts/05-research-checkpoint.md": "skills/judge-loop/references/research-checkpoint.md",
+    }
+    for source, mirror in mirrors.items():
+        if read(ROOT / source) != read(ROOT / mirror):
+            errors.append(f"{mirror}: does not mirror {source}")
+
+
 def main() -> int:
     skill_dirs = sorted(path for path in SKILLS.iterdir() if path.is_dir())
     if not skill_dirs:
@@ -81,6 +124,8 @@ def main() -> int:
         check_fences(path)
         if path.name in {"README.md", "SKILL.md"}:
             check_local_links(path)
+
+    check_role_contract()
 
     if errors:
         print(f"FAIL: {len(errors)} problem(s)")

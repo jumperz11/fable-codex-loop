@@ -13,6 +13,8 @@
 | Frozen gate file | |
 | Lane reports | |
 | Last updated | |
+| Judge | Fable |
+| Workers | Sol / Terra / Luna |
 
 ## Current state
 
@@ -30,9 +32,11 @@
 | Slice attempted | |
 | Started | |
 | Ended | |
-| Builder | |
-| Architect checkpoint | |
+| Workers | |
+| Worker engines | |
+| Architect checkpoint | Fable |
 | Reviewer result | |
+| Fable verdict | |
 | Final status | |
 
 ## Files changed

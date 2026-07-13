@@ -1,50 +1,38 @@
 # CONTRACTS
 
-> Frozen APIs, schemas, interfaces, file formats, commands, and ownership rules.
+> Fable freezes APIs, commands, and ownership before workers start.
 
 ## Freeze status
 
 | Field | Value |
 | --- | --- |
-| Current slice | `S-001` |
-| Freeze timestamp | `2026-06-22 12:20 Africa/Tunis` |
-| Frozen by | `Architect + Builder` |
-| Can change this slice? | `No, unless human explicitly approves` |
+| Current slice | S-003 |
+| Freeze timestamp | 2026-07-13 16:10 Africa/Tunis |
+| Frozen by | Fable |
+| Can change this slice? | No; Fable must review and re-freeze first |
 
 ## Public interfaces
 
 | Name | Type | Location | Contract |
 | --- | --- | --- | --- |
-| `GET /` | HTTP route | `src/server.js` | Returns `200 text/plain` with body `ok`. |
-| `GET /health` | HTTP route | `src/server.js` | Returns `200 application/json` with body `{"status":"ok","uptime_s":<integer seconds>}`. |
-
-## Data schemas
-
-| Schema | Location | Required fields | Notes |
-| --- | --- | --- | --- |
-| `HealthResponse` | `GET /health` | `status: "ok"`, `uptime_s: integer` | `uptime_s` is `Math.floor(process.uptime())`. |
+| GET / | HTTP route | src/server.js | Returns 200 text/plain with body ok. |
+| GET /health | HTTP route | src/server.js | Returns 200 application/json with status ok and integer uptime_s. |
 
 ## Commands
 
 | Command | Purpose | Expected result |
 | --- | --- | --- |
-| `node --test` | Run unit tests. | Exit 0. |
+| npm test | Run route tests. | Exit 0. |
 
 ## File ownership rules
 
-| Area | Owner lane | Allowed files | Forbidden files |
+| Area | Owner worker | Allowed files | Forbidden files |
 | --- | --- | --- | --- |
-| HTTP route | `lane-1` | `src/server.js`, `test/server.test.js` | package manager files |
+| Route behavior | Sol | src/server.js, test/server.test.js, docs/lanes/S-003-sol.md | docs/gates/ |
+| Review | Luna | docs/lanes/S-003-luna-review.md | feature files, docs/gates/ |
 
-## Out-of-scope for current slice
+## Out of scope
 
-- Auth.
+- Authentication.
 - Metrics libraries.
 - Deployment.
-- Changing `/`.
-
-## Contract change log
-
-| Date | Change | Approved by | Reason |
-| --- | --- | --- | --- |
-| `2026-06-22` | Added `GET /health` contract. | `Architect` | Required by slice S-001. |

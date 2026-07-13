@@ -1,115 +1,93 @@
-# Repo Memory Files
+# Repo Memory Contract
 
-Create these files when setting up a repo.
+Initialize the target repo with:
 
-## `docs/HANDOFF.md`
-
-```md
-# HANDOFF
-
-> Raw repo memory. No hype. No narrative grading.
-
-## Project
-
-| Field | Value |
-| --- | --- |
-| Name | |
-| Owner | |
-| Current objective | |
-| Current slice | |
-| Frozen gate file | |
-| Lane reports | |
-| Last updated | |
-
-## Current state
-
-| Area | Raw fact | Evidence |
-| --- | --- | --- |
-| Repo | | |
-| Product | | |
-| Tests | | |
-| Deploy | | |
-
-## Commands run
-
-| Command | Exit code | Result | Relevant output |
-| --- | ---: | --- | --- |
-| | | | |
-
-## Open defects
-
-| ID | Severity | Defect | Evidence | Owner | Status |
-| --- | --- | --- | --- | --- | --- |
-| | | | | | |
+```bash
+judgeloop init .
 ```
 
-Create these directories too:
+Required directories:
 
 ```txt
 docs/gates/
 docs/lanes/
+docs/verdicts/
 docs/prd/
 docs/research/
 ```
 
-## `docs/CONTRACTS.md`
+## HANDOFF required fields
 
 ```md
-# CONTRACTS
-
-> Frozen APIs, schemas, interfaces, file formats, commands, and ownership rules.
-
-## Freeze status
-
 | Field | Value |
 | --- | --- |
-| Current slice | |
-| Freeze timestamp | |
-| Can change this slice? | No, unless human explicitly approves |
-
-## Public interfaces
-
-| Name | Type | Location | Contract |
-| --- | --- | --- | --- |
-| | | | |
+| Current slice | S-001 / title |
+| Frozen gate file | docs/gates/S-001.md |
+| Lane reports | docs/lanes/S-001-*.md |
+| Last updated | timestamp |
+| Judge | Fable |
+| Workers | Sol, Terra, and/or Luna |
 ```
 
-## `docs/EVALS.md`
+For a completed slice, HANDOFF also records `Slice attempted`, `Final status`,
+and `Fable verdict` pointing to `docs/verdicts/<slice>.md`.
+
+## CONTRACTS required fields
 
 ```md
-# EVALS
-
-> The scoreboard. Success criteria must be frozen before results exist.
-
-## Current slice gates
-
-| Gate ID | Requirement | Verification command / method | Pass condition | Status |
-| --- | --- | --- | --- | --- |
-| G-001 | | | | pending |
-```
-
-## `docs/NEXT_SLICE.md`
-
-```md
-# NEXT SLICE
-
-## Slice
-
 | Field | Value |
 | --- | --- |
-| Slice ID | |
-| Title | |
-| Objective | |
+| Current slice | S-001 |
+| Freeze timestamp | timestamp |
+| Frozen by | Fable |
+| Can change this slice? | No |
+```
 
-## Acceptance criteria
+## EVALS required fields
 
-| ID | Criteria | Evidence required |
-| --- | --- | --- |
-| AC-001 | | |
+EVALS records the same `Current slice` and at least one objective `G-001` row.
 
-## Explicit out-of-scope
+## NEXT_SLICE required fields
 
-- 
-- 
-- 
+```md
+| Field | Value |
+| --- | --- |
+| Slice ID | S-001 |
+| Workers | Sol, Terra, and/or Luna |
+| Worker engine | GPT-5.5 Codex by default |
+| Judge | Fable |
+| Human owner | name |
+| Frozen gate file | docs/gates/S-001.md |
+```
+
+NEXT_SLICE also needs at least one `AC-001` acceptance row.
+
+## Freeze and verify
+
+After Fable writes `docs/gates/S-001.md`:
+
+```bash
+judgeloop freeze .
+judgeloop doctor .
+```
+
+This creates `docs/gates/S-001.sha256`. Workers run `judgeloop verify .` before
+editing and never modify the gate or lock.
+
+## Lane reports
+
+Every lane report records Worker (`Sol`, `Terra`, or `Luna`), Engine, raw
+evidence, and one final status: COMPLETE, COMPLETE_WITH_CONCERNS, or BLOCKED.
+Worker reports never contain protocol verdicts.
+
+## Fable verdicts
+
+Every completed slice has `docs/verdicts/<slice>.md`:
+
+```md
+| Field | Value |
+| --- | --- |
+| Slice | S-001 |
+| Judge | Fable |
+| Verdict | PASS / FAIL / PARTIAL |
 ```

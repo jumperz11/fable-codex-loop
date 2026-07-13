@@ -25,6 +25,18 @@ def main() -> int:
     doctor_parser = sub.add_parser("doctor", help="Check whether repo memory is ready.")
     doctor_parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
 
+    freeze_parser = sub.add_parser("freeze", help="Freeze the current gate with a SHA-256 lock.")
+    freeze_parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
+    freeze_parser.add_argument("--slice", dest="slice_id", help="Slice ID; defaults to NEXT_SLICE.")
+    freeze_parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Replace a changed lock after Fable approves the revision.",
+    )
+
+    verify_parser = sub.add_parser("verify", help="Verify every frozen gate lock.")
+    verify_parser.add_argument("target", nargs="?", default=".", help="Target repo directory.")
+
     validate_parser = sub.add_parser("validate", help="Validate this JudgeLoop kit checkout.")
     validate_parser.add_argument(
         "target",
@@ -43,6 +55,17 @@ def main() -> int:
 
     if args.command == "doctor":
         return run([sys.executable, str(ROOT / "scripts" / "doctor.py"), args.target])
+
+    if args.command == "freeze":
+        command = [sys.executable, str(ROOT / "scripts" / "gates.py"), "freeze", args.target]
+        if args.slice_id:
+            command.extend(["--slice", args.slice_id])
+        if args.force:
+            command.append("--force")
+        return run(command)
+
+    if args.command == "verify":
+        return run([sys.executable, str(ROOT / "scripts" / "gates.py"), "verify", args.target])
 
     if args.command == "validate":
         return run(["make", "-C", args.target, "validate"])

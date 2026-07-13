@@ -1,62 +1,35 @@
 # NEXT SLICE
 
-> One small PR-sized mission. If it cannot be reviewed in one sitting, it is too big.
-
-## Slice
+> One PR-sized mission frozen by Fable.
 
 | Field | Value |
 | --- | --- |
-| Slice ID | `S-003` |
-| Title | Document CLI wrapper |
-| Objective | Show the `bin/judgeloop` wrapper in README and validate it against the demo repo. |
-| Builder | `GPT-5.5 Codex` |
-| Architect checkpoint | `<architect model>` |
-| Human judge | `human` |
-| Frozen gate file | `docs/gates/S-003.md` |
+| Slice ID | S-003 |
+| Title | Reject POST health |
+| Objective | Ensure POST /health cannot be mistaken for the GET health endpoint. |
+| Workers | Sol, Luna |
+| Worker engine | GPT-5.5 Codex |
+| Judge | Fable |
+| Human owner | human |
+| Frozen gate file | docs/gates/S-003.md |
+| Gate lock | docs/gates/S-003.sha256 |
 
 ## Acceptance criteria
 
 | ID | Criteria | Evidence required |
 | --- | --- | --- |
-| `AC-001` | README shows `bin/judgeloop init`, `doctor`, and `validate`. | README inspection |
-| `AC-002` | `python3 bin/judgeloop doctor examples/demo-run/repo` exits 0. | command output |
-| `AC-003` | `make validate` exits 0. | command output |
+| AC-001 | POST /health does not return the GET health JSON. | npm test exits 0 |
+| AC-002 | Existing GET / and GET /health tests remain green. | npm test exits 0 |
 
-## Gate file
+## Out of scope
 
-The frozen gate file for this slice is `docs/gates/S-003.md`.
+- Authentication.
+- Monitoring integration.
+- Dependency changes.
 
-## Explicit out-of-scope
+## Worker assignments
 
-- Package publishing.
-- Shell completion.
-- `freeze` and `verify` commands.
-
-## Required reality checks before coding
-
-| Check | Why | Evidence |
-| --- | --- | --- |
-| Confirm wrapper can run from repo root. | Avoid documenting a command that fails. | `python3 bin/judgeloop doctor examples/demo-run/repo` |
-
-## Suggested lanes
-
-| Lane | Responsibility | Allowed files | Must not touch |
+| Worker | Responsibility | Allowed files | Must not touch |
 | --- | --- | --- | --- |
-| `lane-1` | Document and validate CLI wrapper. | `README.md`, `Makefile`, `bin/judgeloop`, `docs/*` | demo source files |
-| `reviewer` | Review only, no feature code. | `docs/HANDOFF.md` only if reporting | feature files |
-
-## Reviewer requirements
-
-Reviewer returns only:
-
-```txt
-APPROVE
-```
-
-or:
-
-```txt
-DEFECTS:
-1. <specific defect>
-2. <specific defect>
-```
+| Sol | Implement and test the method behavior. | src/server.js, test/server.test.js, docs/lanes/S-003-sol.md | docs/gates/ |
+| Luna | Review only and report APPROVE or DEFECTS. | docs/lanes/S-003-luna-review.md | feature files, docs/gates/ |

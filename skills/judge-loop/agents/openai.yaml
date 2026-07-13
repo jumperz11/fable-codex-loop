@@ -1,4 +1,4 @@
 interface:
   display_name: "JudgeLoop"
-  short_description: "Run Fable as architect/judge and Codex or any LLM as builder."
+  short_description: "Fable judges; Sol, Terra, and Luna work with locked gates."
   default_prompt: "Set up or run JudgeLoop for this repo."

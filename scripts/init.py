@@ -21,6 +21,7 @@ DOC_FILES = [
 DOC_DIRS = [
     "gates",
     "lanes",
+    "verdicts",
     "prd",
     "research",
 ]
@@ -88,7 +89,10 @@ def main() -> int:
         print(f"skipped docs/{name}/ (already exists)")
     print(ensure_architect_gitignore(target))
 
-    print("\nRepo memory ready. Next: fill docs/NEXT_SLICE.md, then run scripts/doctor.py")
+    print(
+        "\nRepo memory created. Next: fill NEXT_SLICE and its gate, run "
+        "judgeloop freeze ., then judgeloop doctor ."
+    )
     return 0
 
 

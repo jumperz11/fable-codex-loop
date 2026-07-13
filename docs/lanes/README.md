@@ -1,9 +1,9 @@
 # Lane Reports
 
-Each builder lane writes one raw report here:
+Each worker lane writes one raw report here:
 
 ```txt
-docs/lanes/S-001-lane-1.md
+docs/lanes/S-001-sol.md
 ```
 
 Reports are evidence, not verdicts. They should contain:
@@ -16,6 +16,8 @@ Reports are evidence, not verdicts. They should contain:
 - blockers
 - final lane status
 
-The builder reports evidence. The architect gives verdicts. The human decides.
+Every report names one fixed worker (`Sol`, `Terra`, or `Luna`) and records the
+engine powering that worker. Workers report evidence. Fable alone gives
+protocol verdicts. The human decides whether to ship or stop.
 
 See [`SCHEMA.md`](SCHEMA.md) for the minimal required status format.

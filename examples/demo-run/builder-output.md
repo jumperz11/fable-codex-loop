@@ -1,4 +1,6 @@
-# Step 2 - Codex (Builder)
+# Step 2 - Sol and Luna Worker Evidence
+
+Sol and Luna are workers. GPT-5.5 Codex powers both in this example.
 
 ## PHASE 0 - Disagree first
 
@@ -9,12 +11,12 @@
   - `package.json` confirms `"test": "node --test"`.
 - Disagreement: spec says "uptime" - flooring to integer seconds per frozen contract. No objection.
 
-## PHASE 1 - Freeze contracts
+## PHASE 1 - Verify Fable's freeze
 
-- `docs/CONTRACTS.md`: `GET /health -> 200 JSON {"status":"ok","uptime_s":<int>}`.
-- `docs/EVALS.md`: gates G-001..G-003 written. Frozen.
+- `judgeloop verify .`: every gate lock verified, exit 0.
+- Sol did not edit contracts, gates, or `.sha256` locks.
 
-## PHASE 2 - Build (lane-1)
+## PHASE 2 - Sol implementation
 
 ```diff
  const server = http.createServer((req, res) => {
@@ -28,7 +30,7 @@
  });
 ```
 
-## PHASE 3 - Reviewer lane
+## PHASE 3 - Luna reviewer evidence
 
 ```txt
 APPROVE
@@ -47,4 +49,5 @@ exit code: 0
 
 ## PHASE 5 - Handoff
 
-Updated `docs/HANDOFF.md` with raw results only (see `repo/docs/HANDOFF.md`).
+Sol updated the lane report and HANDOFF with raw results only. Neither worker
+issued a protocol verdict.

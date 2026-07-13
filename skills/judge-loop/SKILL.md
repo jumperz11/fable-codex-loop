@@ -1,122 +1,93 @@
 ---
 name: judge-loop
-description: Run JudgeLoop for software projects. Use when the user wants Claude Fable 5 or another strong model to act as architect, judge, scope killer, or checkpoint; Codex, Opus, GLM, Kimi, DeepSeek, Qwen, or any other LLM to act as builder; repo docs to act as persistent memory; PR-sized slice planning; mandatory disagreement; frozen contracts; evaluator gates; reviewer lanes; raw handoffs; or a shareable AI workflow.
+description: Run JudgeLoop with fixed authority: Fable is always the architect and sole judge; Sol, Terra, and Luna are always workers powered by Codex or another engine; repo docs store frozen gates, SHA-256 locks, lane evidence, Fable verdicts, and the next PR-sized slice. Use for evidence-gated AI software work, explicit disagreement, worker lanes, raw handoffs, or Fable PASS, FAIL, and PARTIAL reviews.
 ---
 
 # JudgeLoop
 
-Use this skill to run or set up the workflow:
+> **Fable always judges. Sol, Terra, and Luna work. Repo stores proof. Human ships.**
 
-> **Fable decides. Codex builds by default. Repo stores proof. Human judges.**
+## Fixed authority
 
-Fable is used for scarce judgment, not endless typing. The selected builder
-does the sustained execution work and records raw evidence. Codex is the default
-builder path in this kit, but it is not required.
+1. Fable is the sole architect and protocol judge.
+2. Sol, Terra, and Luna are workers only.
+3. Worker engines may vary; identities and authority may not.
+4. Workers report evidence or reviewer findings and never issue PASS, FAIL, or PARTIAL.
+5. The human owns the final ship or stop decision after Fable's verdict.
 
-## Core rules
+## Set up repo memory
 
-1. Fable is for judgment, not typing.
-2. The selected builder is for building, testing, and evidence.
-3. Repo docs are memory. If it is not in `docs/`, treat it as unknown.
-4. Disagreement is mandatory before implementation.
-5. Freeze success criteria before results exist.
-6. Keep work PR-sized.
-7. The builder never grades its own work.
-8. If Fable is unavailable or expensive, the builder continues only from frozen specs and records unresolved decisions for the next Fable checkpoint.
+Prefer the installed CLI:
 
-## Set up a repo
+```bash
+judgeloop init .
+```
 
-If the repo does not already have memory docs, create:
+This creates HANDOFF, CONTRACTS, DECISIONS, EVALS, NEXT_SLICE, gates, lanes,
+verdicts, PRD, and research memory under `docs/`.
 
-- `docs/HANDOFF.md` - raw state after every work block
-- `docs/CONTRACTS.md` - frozen APIs, schemas, file formats, ownership
-- `docs/DECISIONS.md` - accepted/rejected decisions and why
-- `docs/EVALS.md` - success gates frozen before results
-- `docs/NEXT_SLICE.md` - one PR-sized next mission
-- `docs/gates/` - per-slice frozen gates
-- `docs/lanes/` - per-lane raw builder reports
-- `docs/prd/` - optional short product and implementation briefs
-- `docs/research/` - optional architect-reviewed research reports
+For exact file shapes, read `references/repo-memory.md`.
 
-Use the templates in `references/repo-memory.md` if blank files are needed.
+## Run a Fable checkpoint
 
-## Run an architect checkpoint
+Fable reads the repo memory, narrows one PR-sized slice, assigns a subset of
+Sol, Terra, and Luna, writes objective gates, and freezes them:
 
-Read these files first:
+```bash
+judgeloop freeze .
+judgeloop doctor .
+```
 
-- `docs/HANDOFF.md`
-- `docs/CONTRACTS.md`
-- `docs/DECISIONS.md`
-- `docs/EVALS.md`
-- `docs/NEXT_SLICE.md`
+Do not dispatch workers until both commands succeed. For the exact checkpoint
+prompt, read `references/architect-checkpoint.md`.
 
-Then produce:
+## Direct workers
 
-1. current state from repo memory only
-2. disagreements / risks
-3. contracts to verify or freeze
-4. next PR-sized slice spec
-5. explicit out-of-scope
-6. max 3 non-conflicting builder lanes
-7. exactly one reviewer lane that writes no feature code
-8. paste-ready builder block
+Every worker block must include:
 
-For exact output structure, read `references/architect-checkpoint.md`.
+- Worker: Sol, Terra, or Luna
+- Engine: model or tool powering that worker
+- exact file ownership
+- mandatory disagreement and reality checks
+- `judgeloop verify .` before edits
+- raw commands, exits, changed files, and risks
+- one allowed final status: COMPLETE, COMPLETE_WITH_CONCERNS, or BLOCKED
 
-## Direct the builder
+Workers must not edit `docs/gates/`, `.sha256` locks, HANDOFF Final status, or
+the Fable verdict field. Workers must not write protocol verdicts.
 
-The selected builder must:
+For the complete worker block, read `references/builder-contract.md`.
 
-1. disagree before coding
-2. cite real repo files checked
-3. verify APIs/schemas/formats against reality
-4. freeze `docs/CONTRACTS.md`, `docs/EVALS.md`, and `docs/NEXT_SLICE.md`
-5. build in max 3 lanes only when file ownership does not conflict
-6. run one reviewer lane that returns only `APPROVE` or numbered defects
-7. update `docs/HANDOFF.md` with raw facts only
-8. record unresolved strategic decisions instead of inventing them silently
+## Review evidence with Fable
 
-For the paste-ready builder block, read `references/builder-contract.md`.
+Fable verifies locks and memory before judging:
 
-## Use headless dispatch only when it buys something
+```bash
+judgeloop verify .
+judgeloop doctor .
+```
 
-Manual mode is the default: Fable writes a block and the human pastes it into
-the selected builder.
+Fable alone writes `docs/verdicts/<slice>.md` with Judge `Fable` and Verdict
+`PASS`, `FAIL`, or `PARTIAL`, then updates HANDOFF and freezes the next slice.
+The human then chooses ship or stop.
 
-For larger Codex slices, Fable may prepare headless `codex exec` dispatch:
+For the exact review structure, read `references/architect-review.md`.
 
-1. freeze gates in `docs/gates/<slice>.md`
-2. write builder blocks into `.architect/`
-3. run one fresh Codex process per lane
-4. use git worktrees for parallel lanes
-5. require every lane to write `docs/lanes/<slice>-<lane>.md`
-6. verify gates and lane boundaries before integration
+## Headless dispatch
 
-For the procedure, read `references/headless-dispatch.md`. This headless path
-is Codex-specific. Other builders use the generic builder contract.
+Use headless Codex only when parallel work is worth the overhead. Every process
+still runs as Sol, Terra, or Luna, keeps disjoint ownership, writes a lane
+report, and leaves judgment to Fable. Read `references/headless-dispatch.md`.
 
-## Research checkpoint
+## Research
 
-Do not research every slice. Use research only when the team is deciding what
-to build, choosing technology, or checking facts too large for routine builder
-reality checks.
+Research workers gather evidence; Fable synthesizes and judges. Use no more than
+the three fixed workers. Read `references/research-checkpoint.md`.
 
-Builder/researcher LLMs gather. Fable designs lanes, verifies claims, and
-writes the report. Final reports go in `docs/research/`; implementation briefs
-go in `docs/prd/`.
+## Failure rules
 
-For the procedure, read `references/research-checkpoint.md`.
-
-## Review builder output
-
-When the builder returns results:
-
-1. judge only raw evidence
-2. compare against `docs/EVALS.md`
-3. fail any mid-slice contract changes not explicitly approved by the human
-4. fail if reviewer did not approve
-5. rule PASS / FAIL / PARTIAL
-6. accept, modify, or reject unresolved builder decisions
-7. write the next slice or kill/rollback recommendation
-
-For review structure, read `references/architect-review.md`.
+- Gate or lock changed after freeze: stop; Fable must review and explicitly re-freeze.
+- Worker issued a protocol verdict: reject the lane report.
+- Slice IDs disagree across memory: do not dispatch.
+- Missing Fable verdict after a completed slice: the loop is incomplete.
+- Fable unavailable: workers continue only from frozen specs; unresolved decisions wait.

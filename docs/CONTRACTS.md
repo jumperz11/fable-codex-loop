@@ -10,8 +10,8 @@
 | --- | --- |
 | Current slice | `<slice id>` |
 | Freeze timestamp | `<YYYY-MM-DD HH:MM TZ>` |
-| Frozen by | `Architect + Builder + Human` |
-| Can change this slice? | `No, unless human explicitly approves` |
+| Frozen by | `Fable` |
+| Can change this slice? | `No; Fable must review and re-freeze before workers resume` |
 
 ## Public interfaces
 
@@ -46,4 +46,4 @@
 
 | Date | Change | Approved by | Reason |
 | --- | --- | --- | --- |
-| `<date>` | `<change>` | `<human/architect>` | `<why>` |
+| `<date>` | `<change>` | `Fable` | `<why>` |

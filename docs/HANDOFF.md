@@ -14,6 +14,8 @@
 | Frozen gate file | `docs/gates/<slice>.md` |
 | Lane reports | `docs/lanes/<slice>-*.md` |
 | Last updated | `<YYYY-MM-DD HH:MM TZ>` |
+| Judge | `Fable` |
+| Workers | `<workers: Sol, Terra, and/or Luna>` |
 
 ## Current state
 
@@ -31,9 +33,11 @@
 | Slice attempted | `<slice id>` |
 | Started | `<timestamp>` |
 | Ended | `<timestamp>` |
-| Builder | `<tool/model, e.g. GPT-5.5 Codex / Opus 4.8 / GLM 5.2>` |
-| Architect checkpoint | `<architect model>` |
+| Workers | `<workers: Sol, Terra, and/or Luna>` |
+| Worker engines | `<engine/model per worker>` |
+| Architect checkpoint | `Fable` |
 | Reviewer result | `APPROVE / DEFECTS / NOT RUN` |
+| Fable verdict | `docs/verdicts/<slice>.md` |
 | Final status | `PASS / FAIL / PARTIAL / UNKNOWN` |
 
 ## Files changed
@@ -64,7 +68,7 @@
 
 | ID | Raised by | Disagreement | Ruling | Why |
 | --- | --- | --- | --- | --- |
-| `D-001` | `Architect/Builder/Human` | `<text>` | `accept/reject/modify/pending` | `<one line>` |
+| `D-001` | `Fable/Sol/Terra/Luna/Human owner` | `<text>` | `accept/reject/modify/pending` | `<one line>` |
 
 ## Open defects
 

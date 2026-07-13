@@ -7,10 +7,12 @@
 | Slice ID | |
 | Title | |
 | Objective | |
-| Builder | |
-| Architect checkpoint | |
-| Human judge | |
+| Workers | Sol / Terra / Luna |
+| Worker engine | GPT-5.5 Codex by default |
+| Judge | Fable |
+| Human owner | |
 | Frozen gate file | docs/gates/<slice>.md |
+| Gate lock | docs/gates/<slice>.sha256 |
 
 ## Acceptance criteria
 
@@ -20,7 +22,8 @@
 
 ## Gate file
 
-Before coding starts, freeze this slice's gates in `docs/gates/<slice>.md`.
+Before coding starts, write `docs/gates/<slice>.md`, then run
+`judgeloop freeze .`. Workers may not edit the gate or its lock.
 
 ## Explicit out-of-scope
 
@@ -38,6 +41,6 @@ Before coding starts, freeze this slice's gates in `docs/gates/<slice>.md`.
 
 | Lane | Responsibility | Allowed files | Must not touch |
 | --- | --- | --- | --- |
-| lane-1 | | | |
-| lane-2 | | | |
-| reviewer | Review only, no feature code | | feature files |
+| Sol | | | |
+| Terra | | | |
+| Luna | Review or implementation worker | | |

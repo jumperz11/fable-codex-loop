@@ -74,7 +74,8 @@ cd judge-loop
 export PATH="$PWD/bin:$PATH"
 cd /path/to/your-project
 judgeloop init .
-# fill docs/NEXT_SLICE.md and freeze docs/gates/<slice>.md
+# Fable fills NEXT_SLICE and docs/gates/<slice>.md
+judgeloop freeze .
 judgeloop doctor .
 ```
 
@@ -88,15 +89,16 @@ From your `judge-loop` checkout:
 export PATH="$PWD/bin:$PATH"
 ```
 
-Then `judgeloop init .` and `judgeloop doctor .` work from your shell.
+Then `judgeloop init .`, `freeze`, `verify`, and `doctor` work from your shell.
 
 Then:
 
 1. Paste [`prompts/01-architect-checkpoint.md`](prompts/01-architect-checkpoint.md) into Fable.
-2. Give the returned block to Sol, Terra, or Luna. GPT-5.5 Codex is the default worker engine.
-3. The worker writes evidence to `docs/HANDOFF.md` and `docs/lanes/`.
-4. Paste [`prompts/03-architect-review.md`](prompts/03-architect-review.md) into Fable.
-5. Fable alone judges raw evidence against frozen gates and writes the next slice.
+2. Run `judgeloop freeze .`, then `judgeloop doctor .` before dispatch.
+3. Give the returned block to Sol, Terra, or Luna. GPT-5.5 Codex is the default worker engine.
+4. The worker runs `judgeloop verify .` and writes evidence to `docs/HANDOFF.md` and `docs/lanes/`.
+5. Paste [`prompts/03-architect-review.md`](prompts/03-architect-review.md) into Fable.
+6. Fable alone writes `docs/verdicts/<slice>.md`, judges the evidence, and freezes the next slice.
 
 That is the loop.
 
@@ -104,7 +106,8 @@ That is the loop.
 
 ## Status
 
-`v0.1.5`: usable manual JudgeLoop kit.
+Usable manual JudgeLoop kit with fixed roles, tracked gate locks, adversarial
+checks, and Fable verdict receipts.
 
 This is intentionally small: repo memory, prompts, stricter doctor checks, an
 installable skill, a tiny CLI wrapper, and a runnable demo. Headless automation
@@ -126,7 +129,7 @@ This loop separates those jobs.
 | One model plans, codes, and grades itself. | Fable judges. Sol, Terra, and Luna build. |
 | Success criteria move after seeing results. | Gates freeze before coding. |
 | Context lives in chat scrollback. | State lives in `docs/`. |
-| The builder says "looks good." | The repo stores raw commands and exit codes. |
+| A worker says "looks good." | The repo stores raw commands and exit codes. |
 | Expensive model types for hours. | Expensive model checks high-leverage decisions. |
 
 Use this when a task is big enough to deserve a PR-sized slice, explicit gates,
@@ -157,10 +160,11 @@ Use it when:
 ```mermaid
 flowchart TD
     S["docs/NEXT_SLICE.md<br/>one PR-sized mission"] --> G["docs/gates/S-001.md<br/>frozen before coding"]
-    G --> B["Builder run<br/>disagree first, build only declared files"]
-    B --> L["docs/lanes/S-001-lane-1.md<br/>raw commands, exits, files touched"]
+    G --> K["Gate lock<br/>judgeloop freeze"]
+    K --> B["Worker run<br/>Sol / Terra / Luna only"]
+    B --> L["docs/lanes/S-001-sol.md<br/>raw commands, exits, files touched"]
     L --> H["docs/HANDOFF.md<br/>latest repo memory"]
-    H --> J["Architect review<br/>PASS / FAIL / PARTIAL"]
+    H --> J["Fable verdict<br/>PASS / FAIL / PARTIAL"]
 ```
 
 The checks are intentionally boring:
@@ -168,10 +172,11 @@ The checks are intentionally boring:
 | Artifact | What it prevents |
 | --- | --- |
 | `docs/gates/<slice>.md` | Moving success criteria after results exist. |
-| `docs/lanes/<slice>-<lane>.md` | Builder claims without raw evidence. |
+| `docs/gates/<slice>.sha256` | Silent edits after Fable freezes the gate. |
+| `docs/lanes/<slice>-<worker>.md` | Worker claims without raw evidence. |
 | `docs/HANDOFF.md` | Losing project state in chat history. |
-| `scripts/doctor.py` | Starting a run with missing or placeholder memory. |
-| Fable review prompt | Builder self-grading. |
+| `docs/verdicts/<slice>.md` | Missing or anonymous final judgment. |
+| `scripts/doctor.py` | Missing roles, slice drift, worker verdicts, and broken locks. |
 
 ---
 
@@ -225,6 +230,7 @@ docs/EVALS.md
 docs/NEXT_SLICE.md
 docs/gates/
 docs/lanes/
+docs/verdicts/
 docs/prd/
 docs/research/
 ```
@@ -255,6 +261,15 @@ Then freeze the acceptance criteria in:
 docs/gates/<slice>.md
 ```
 
+Lock the gate before any worker starts:
+
+```bash
+judgeloop freeze .
+```
+
+This creates `docs/gates/<slice>.sha256`. Gate or lock edits make verification
+fail until Fable explicitly reviews and re-freezes the revision.
+
 Freshly initialized repos are expected to be `NOT READY` until placeholders are
 filled, a gate file exists, and the required evidence docs are no longer blank.
 
@@ -280,8 +295,8 @@ Paste this into Fable:
 prompts/01-architect-checkpoint.md
 ```
 
-Fable reads the repo docs, freezes the slice, calls out risks, and ends with a
-paste-ready builder block.
+Fable reads the repo docs, writes the slice and gate, calls out risks, runs
+`judgeloop freeze .`, and ends with paste-ready worker blocks.
 
 ### Step B: Sol, Terra, or Luna builds
 
@@ -293,14 +308,17 @@ Every worker must:
 - disagree before coding
 - cite real repo files
 - verify APIs, schemas, commands, and formats
-- freeze contracts and gates before implementation
+- run `judgeloop verify .` before implementation
+- never edit gate files or `.sha256` locks
 - build the slice
 - run tests
 - write raw evidence to `docs/HANDOFF.md` and `docs/lanes/`
+- record Worker and Engine, then end with an allowed `STATUS`
+- never issue a protocol verdict
 
 ### Step C: Fable reviews
 
-After the builder finishes, paste this into Fable:
+After the workers finish, paste this into Fable:
 
 ```txt
 prompts/03-architect-review.md
@@ -310,6 +328,7 @@ Give Fable the raw results:
 
 - `docs/HANDOFF.md`
 - `docs/gates/<slice>.md`
+- `docs/gates/<slice>.sha256`
 - `docs/lanes/<slice>-*.md`
 - test output
 - git diff summary
@@ -320,7 +339,8 @@ Fable returns:
 PASS / FAIL / PARTIAL
 ```
 
-Then Fable writes the next slice.
+Then Fable writes `docs/verdicts/<slice>.md`, updates HANDOFF, and freezes the
+next slice. The human chooses whether to ship or stop.
 
 Repeat.
 
@@ -345,7 +365,9 @@ examples/demo-run/repo/
 `-- docs/
     |-- gates/S-001.md
     |-- gates/S-002.md
-    `-- lanes/S-001-lane-1.md
+    |-- gates/S-002.sha256
+    |-- lanes/S-001-sol.md
+    `-- verdicts/S-002.md
 ```
 
 Validate the demo memory:
@@ -362,18 +384,20 @@ python3 scripts/doctor.py examples/demo-run/repo
 | File | Purpose |
 | --- | --- |
 | [`prompts/01-architect-checkpoint.md`](prompts/01-architect-checkpoint.md) | Start a Fable architect checkpoint. |
-| [`prompts/02-builder-contract.md`](prompts/02-builder-contract.md) | Base builder contract. Codex is the default builder. |
-| [`prompts/03-architect-review.md`](prompts/03-architect-review.md) | Review builder output with Fable. |
+| [`prompts/02-builder-contract.md`](prompts/02-builder-contract.md) | Fixed worker contract; Codex is the default engine. |
+| [`prompts/03-architect-review.md`](prompts/03-architect-review.md) | Review worker evidence with Fable. |
 | [`prompts/04-headless-dispatch.md`](prompts/04-headless-dispatch.md) | Optional `codex exec` / worktree adapter. |
 | [`prompts/05-research-checkpoint.md`](prompts/05-research-checkpoint.md) | Optional research checkpoint. |
-| [`docs/BUILDERS.md`](docs/BUILDERS.md) | How to use Codex, Opus, GLM, Kimi, DeepSeek, Qwen, or another LLM builder. |
+| [`docs/BUILDERS.md`](docs/BUILDERS.md) | How worker engines vary without changing fixed roles. |
 | [`docs/HANDOFF.md`](docs/HANDOFF.md) | Raw state after every work block. |
 | [`docs/CONTRACTS.md`](docs/CONTRACTS.md) | Frozen APIs, schemas, interfaces, commands. |
 | [`docs/EVALS.md`](docs/EVALS.md) | Scoreboard for success gates. |
-| [`docs/gates/`](docs/gates/) | Per-slice frozen gate files. |
-| [`docs/lanes/`](docs/lanes/) | Per-lane builder reports. |
+| [`docs/gates/`](docs/gates/) | Per-slice gates and tracked SHA-256 locks. |
+| [`docs/lanes/`](docs/lanes/) | Sol, Terra, and Luna evidence reports. |
+| [`docs/verdicts/`](docs/verdicts/) | Fable-only PASS / FAIL / PARTIAL receipts. |
 | [`docs/lanes/SCHEMA.md`](docs/lanes/SCHEMA.md) | Minimal lane-report schema and status values. |
-| [`bin/judgeloop`](bin/judgeloop) | Tiny wrapper for `init`, `doctor`, and `validate`. |
+| [`scripts/gates.py`](scripts/gates.py) | Freeze and verify gate locks. |
+| [`bin/judgeloop`](bin/judgeloop) | Wrapper for `init`, `freeze`, `verify`, and `doctor`. |
 
 If it is not in repo docs, it did not happen.
 
@@ -385,7 +409,7 @@ Most people should start with **manual mode**.
 
 | Mode | Use when | How |
 | --- | --- | --- |
-| Manual | You want to watch the run and paste between Fable and builder. | Fable prompt -> builder run -> Fable review. |
+| Manual | You want to watch the run and paste between Fable and workers. | Fable -> freeze -> workers -> Fable verdict. |
 | Headless | The slice is big enough for unattended or parallel lanes. | Fable writes `.architect/` dispatch blocks; `codex exec` runs per lane. |
 
 Manual mode is the product. Headless mode is the Codex adapter.
@@ -397,10 +421,10 @@ Manual mode is the product. Headless mode is the Codex adapter.
 1. Fable is the sole architect and judge.
 2. Sol, Terra, and Luna are workers only: building, testing, and evidence.
 3. Repo docs are memory.
-4. Workers never grade their own work or issue PASS / FAIL.
+4. Workers never grade their own work or issue PASS / FAIL / PARTIAL verdicts.
 5. Disagreement is mandatory.
 6. Gates freeze before results exist.
-7. Builder edits to frozen gates fail the slice.
+7. Every gate has a tracked SHA-256 lock; worker edits to either file fail the slice.
 8. Parallel lanes need disjoint file ownership.
 9. If Fable is down or expensive, workers continue only from frozen specs, record unresolved decisions, and wait for Fable to issue the next verdict.
 
@@ -421,6 +445,8 @@ This checks:
 
 - demo repo memory
 - demo source tests
+- fixed-role and adversarial regression tests
+- gate-lock integrity
 - Python scripts
 - skill metadata
 - markdown links
@@ -458,7 +484,7 @@ See what was borrowed and what stayed intentionally simpler:
 docs/REFERENCE_GAPS.md
 ```
 
-See how to swap builders:
+See how to swap worker engines:
 
 ```txt
 docs/BUILDERS.md

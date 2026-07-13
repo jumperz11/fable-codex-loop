@@ -6,8 +6,9 @@ Required:
 
 ```yaml
 slice: S-001
-lane: lane-1
-builder: GPT-5.5 Codex
+lane: implementation
+worker: Sol
+engine: GPT-5.5 Codex
 status: COMPLETE
 files_touched:
   - src/server.js
@@ -31,5 +32,6 @@ Allowed status values:
 - `COMPLETE_WITH_CONCERNS`
 - `BLOCKED`
 
-Verdicts such as `PASS` and `FAIL` belong to the architect and human, not the
-builder.
+Workers may use `PASS` or `FAIL` only for individual command results. A worker
+report must never contain a protocol `VERDICT: PASS`, `VERDICT: FAIL`, or
+`VERDICT: PARTIAL`. Those verdicts belong to Fable alone.

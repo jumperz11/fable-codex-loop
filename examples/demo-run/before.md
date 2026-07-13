@@ -16,5 +16,5 @@ pingbox/
 
 > "Add a /health endpoint that returns JSON status and uptime, with a test."
 
-Nothing is in `docs/` yet. First action: run `scripts/init.py`, then fill
-`docs/NEXT_SLICE.md`.
+Nothing is in `docs/` yet. First action: run `judgeloop init .`, let Fable fill
+`docs/NEXT_SLICE.md` and its gate, then run `judgeloop freeze .`.
