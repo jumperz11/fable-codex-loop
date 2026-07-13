@@ -1,5 +1,7 @@
 # JudgeLoop
 
+![JudgeLoop: Fable as the one judge, many AI builders, and the repository keeping the proof](assets/judgeloop-hero.png)
+
 > **Fable always judges. Sol, Terra, and Luna build. Repo stores proof. Human ships.**
 
 JudgeLoop is a repo-local evidence protocol for AI-built software.
