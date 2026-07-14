@@ -17,8 +17,8 @@ Fable is the sole JudgeLoop verdict authority. Sol, Terra, and Luna are fixed
 worker roles: they implement, verify, and return raw evidence, but never issue a
 PASS or FAIL verdict.
 
-GPT-5.5 Codex is the default worker engine. Another LLM may power a worker, but
-the role never changes: Fable judges; workers work.
+The engine behind each worker is configurable and recorded in its lane report.
+Changing the engine never changes the role: Fable judges; workers work.
 
 | Agent | Fixed role | Can issue the JudgeLoop verdict? |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ Then:
 
 1. Paste [`prompts/01-architect-checkpoint.md`](prompts/01-architect-checkpoint.md) into Fable.
 2. Run `judgeloop freeze .`, then `judgeloop doctor .` before dispatch.
-3. Give the returned block to Sol, Terra, or Luna. GPT-5.5 Codex is the default worker engine.
+3. Give the returned block to Sol, Terra, or Luna and record the model powering that worker.
 4. The worker runs `judgeloop verify .` and writes evidence to `docs/HANDOFF.md` and `docs/lanes/`.
 5. Paste [`prompts/03-architect-review.md`](prompts/03-architect-review.md) into Fable.
 6. Fable alone writes `docs/verdicts/<slice>.md`, judges the evidence, and freezes the next slice.
@@ -120,9 +120,8 @@ is optional and still adapter-specific.
 ## Why Use This
 
 Fable is the architect and sole judge: judgment, planning, arbitration, and
-long-horizon review. Sol, Terra, and Luna are workers only. GPT-5.5 Codex is the
-default engine behind them, but the engine can be swapped without promoting a
-worker into a judge.
+long-horizon review. Sol, Terra, and Luna are workers only. Their engines can be
+chosen per task without promoting a worker into a judge.
 
 This loop separates those jobs.
 
@@ -302,8 +301,8 @@ Fable reads the repo docs, writes the slice and gate, calls out risks, runs
 
 ### Step B: Sol, Terra, or Luna builds
 
-Give Fable's block to one or more workers. GPT-5.5 Codex is the default engine,
-but another implementation model can power a worker without changing its role.
+Give Fable's block to one or more workers. Any capable implementation model can
+power a worker without changing its role.
 
 Every worker must:
 
@@ -386,7 +385,7 @@ python3 scripts/doctor.py examples/demo-run/repo
 | File | Purpose |
 | --- | --- |
 | [`prompts/01-architect-checkpoint.md`](prompts/01-architect-checkpoint.md) | Start a Fable architect checkpoint. |
-| [`prompts/02-builder-contract.md`](prompts/02-builder-contract.md) | Fixed worker contract; Codex is the default engine. |
+| [`prompts/02-builder-contract.md`](prompts/02-builder-contract.md) | Fixed worker contract; the active engine is recorded per lane. |
 | [`prompts/03-architect-review.md`](prompts/03-architect-review.md) | Review worker evidence with Fable. |
 | [`prompts/04-headless-dispatch.md`](prompts/04-headless-dispatch.md) | Optional `codex exec` / worktree adapter. |
 | [`prompts/05-research-checkpoint.md`](prompts/05-research-checkpoint.md) | Optional research checkpoint. |
@@ -508,7 +507,7 @@ always the judge; Sol, Terra, and Luna are always workers.
 
 **Can I use Opus, GLM, Kimi, DeepSeek, Qwen, or another LLM instead of Codex?**
 
-Yes. Codex is the default worker engine, not a hard dependency. Another LLM can
+Yes. JudgeLoop does not require a default worker model. Any capable LLM can
 power Sol, Terra, or Luna if it follows the worker contract: disagree first,
 touch only declared files, run checks, and write raw evidence to
 `docs/HANDOFF.md` / `docs/lanes/`. It remains a worker and cannot issue verdicts.
