@@ -8,7 +8,7 @@ Required:
 slice: S-001
 lane: implementation
 worker: Sol
-engine: GPT-5.5 Codex
+engine: <model-or-tool>
 status: COMPLETE
 files_touched:
   - src/server.js

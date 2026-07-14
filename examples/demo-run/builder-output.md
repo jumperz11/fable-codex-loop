@@ -1,6 +1,6 @@
 # Step 2 - Sol and Luna Worker Evidence
 
-Sol and Luna are workers. GPT-5.5 Codex powers both in this example.
+Sol and Luna are workers. Codex CLI powers both in this example.
 
 ## PHASE 0 - Disagree first
 

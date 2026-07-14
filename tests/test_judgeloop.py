@@ -90,7 +90,7 @@ class JudgeLoopInvariantTests(unittest.TestCase):
             | Title | Add sum |
             | Objective | Export a sum function |
             | Workers | Sol |
-            | Worker engine | GPT-5.5 Codex |
+            | Worker engine | Example Engine |
             | Judge | Fable |
             | Human owner | Jamel |
             | Frozen gate file | docs/gates/S-001.md |
@@ -123,7 +123,7 @@ class JudgeLoopInvariantTests(unittest.TestCase):
             | Field | Value |
             | --- | --- |
             | Worker | Sol |
-            | Engine | GPT-5.5 Codex |
+            | Engine | Example Engine |
 
             Command result: PASS, exit 0.
 
@@ -201,7 +201,7 @@ class JudgeLoopInvariantTests(unittest.TestCase):
             | Title | Validate input |
             | Objective | Reject string input |
             | Workers | Terra |
-            | Worker engine | GPT-5.5 Codex |
+            | Worker engine | Example Engine |
             | Judge | Fable |
             | Human owner | Jamel |
             | Frozen gate file | docs/gates/S-002.md |

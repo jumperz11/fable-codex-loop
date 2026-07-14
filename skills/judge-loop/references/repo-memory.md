@@ -54,7 +54,7 @@ EVALS records the same `Current slice` and at least one objective `G-001` row.
 | --- | --- |
 | Slice ID | S-001 |
 | Workers | Sol, Terra, and/or Luna |
-| Worker engine | GPT-5.5 Codex by default |
+| Worker engine | model-or-tool (required) |
 | Judge | Fable |
 | Human owner | name |
 | Frozen gate file | docs/gates/S-001.md |

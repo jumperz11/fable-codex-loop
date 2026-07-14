@@ -1,7 +1,7 @@
 # Step 1 - Fable Checkpoint
 
 Fable is the sole architect and judge. Sol implements; Luna reviews. Both are
-workers powered by GPT-5.5 Codex in this example.
+workers powered by Codex CLI in this example.
 
 ## A. STATE FROM MEMORY
 
@@ -42,7 +42,7 @@ workers powered by GPT-5.5 Codex in this example.
 /goal: execute Fable's frozen slice S-001 - add GET /health.
 
 Worker: Sol.
-Engine: GPT-5.5 Codex.
+Engine: Codex CLI.
 Fable is the sole judge. Do not issue a protocol verdict.
 
 PHASE 0: disagree first. List plan, ambiguities, files checked, and the two

@@ -19,6 +19,8 @@ FORBIDDEN_ROLE_PHRASES = [
     "architect + builder",
     "another strong model to act as architect",
 ]
+STALE_MODEL_IDS = ("gpt-" + "5.5",)
+TEXT_SUFFIXES = {".json", ".md", ".ps1", ".py", ".sh", ".toml", ".txt", ".yaml", ".yml"}
 
 
 def read(path: Path) -> str:
@@ -110,6 +112,18 @@ def check_role_contract() -> None:
             errors.append(f"{mirror}: does not mirror {source}")
 
 
+def check_stale_model_ids() -> None:
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts:
+            continue
+        if path.suffix.lower() not in TEXT_SUFFIXES and path.name != "Makefile":
+            continue
+        lower = read(path).lower()
+        for model_id in STALE_MODEL_IDS:
+            if model_id in lower:
+                errors.append(f"{path.relative_to(ROOT)}: stale model id: {model_id}")
+
+
 def main() -> int:
     skill_dirs = sorted(path for path in SKILLS.iterdir() if path.is_dir())
     if not skill_dirs:
@@ -126,6 +140,7 @@ def main() -> int:
             check_local_links(path)
 
     check_role_contract()
+    check_stale_model_ids()
 
     if errors:
         print(f"FAIL: {len(errors)} problem(s)")

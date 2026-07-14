@@ -10,7 +10,7 @@
 | Title | `<short title>` |
 | Objective | `<one sentence>` |
 | Workers | `<workers: Sol, Terra, and/or Luna>` |
-| Worker engine | `<engine/model; GPT-5.5 Codex by default>` |
+| Worker engine | `<model-or-tool; required>` |
 | Judge | `Fable` |
 | Human owner | `<human owner>` |
 | Frozen gate file | `docs/gates/S-001.md` |

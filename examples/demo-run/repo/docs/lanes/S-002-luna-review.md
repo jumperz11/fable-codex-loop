@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Worker | Luna |
-| Engine | GPT-5.5 Codex |
+| Engine | Codex CLI |
 
 Reviewer finding: APPROVE.
 

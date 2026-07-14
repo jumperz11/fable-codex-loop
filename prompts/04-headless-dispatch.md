@@ -26,7 +26,6 @@ Single lane:
 
 ```bash
 codex exec -C <repo-root> --sandbox workspace-write \
-  -m gpt-5.5 -c model_reasoning_effort="xhigh" \
   --json -o .architect/<slice>-last-run.jsonl \
   - < .architect/<slice>-sol.md
 ```
@@ -38,7 +37,6 @@ git -C <repo-root> worktree add .architect/wt/<slice>-<lane> \
   -b lane/<slice>-<lane> <freeze-sha>
 
 codex exec -C <repo-root>/.architect/wt/<slice>-<lane> --sandbox workspace-write \
-  -m gpt-5.5 -c model_reasoning_effort="xhigh" \
   --json -o .architect/wt/<slice>-<lane>.jsonl \
   - < .architect/wt/<slice>-<lane>.md
 ```

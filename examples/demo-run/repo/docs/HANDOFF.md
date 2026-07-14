@@ -33,7 +33,7 @@
 | Started | 2026-07-01 15:50 Africa/Tunis |
 | Ended | 2026-07-01 15:55 Africa/Tunis |
 | Workers | Terra, Luna |
-| Worker engines | GPT-5.5 Codex |
+| Worker engines | Codex CLI |
 | Architect checkpoint | Fable |
 | Reviewer result | APPROVE |
 | Fable verdict | docs/verdicts/S-002.md |

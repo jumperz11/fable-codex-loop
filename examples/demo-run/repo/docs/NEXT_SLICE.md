@@ -8,7 +8,7 @@
 | Title | Reject POST health |
 | Objective | Ensure POST /health cannot be mistaken for the GET health endpoint. |
 | Workers | Sol, Luna |
-| Worker engine | GPT-5.5 Codex |
+| Worker engine | Codex CLI |
 | Judge | Fable |
 | Human owner | human |
 | Frozen gate file | docs/gates/S-003.md |

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Worker | Terra |
-| Engine | GPT-5.5 Codex |
+| Engine | Codex CLI |
 
 Added the application/json content-type assertion. npm test exited 0 with four
 passing tests. Gate and lock were unchanged. Terra reports evidence only.

@@ -8,7 +8,7 @@
 | Title | |
 | Objective | |
 | Workers | Sol / Terra / Luna |
-| Worker engine | GPT-5.5 Codex by default |
+| Worker engine | model-or-tool (required) |
 | Judge | Fable |
 | Human owner | |
 | Frozen gate file | docs/gates/<slice>.md |

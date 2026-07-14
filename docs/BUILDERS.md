@@ -6,9 +6,8 @@ JudgeLoop fixes the roles and allows the engines to vary.
 - Sol, Terra, and Luna are always workers.
 - The human owns the ship or stop decision.
 
-GPT-5.5 Codex is the default worker engine because it has a strong terminal
-workflow and a clean headless path with `codex exec`. Another LLM may power a
-worker, but changing the engine never changes the role.
+JudgeLoop requires no default worker engine. Choose a model or tool for the
+task, record it in the lane report, and keep the authority boundary unchanged.
 
 ## Worker Requirements
 
@@ -30,15 +29,15 @@ review findings for Fable, not JudgeLoop verdicts.
 
 ## Engine Choices
 
-| Worker engine | Good for | Notes |
+| Worker engine or tool | Good for | Notes |
 | --- | --- | --- |
-| GPT-5.5 Codex | terminal work, tests, long implementation loops | Default engine. |
-| Claude Opus 4.8 | careful code reasoning and review-heavy work | Still runs as Sol, Terra, or Luna. |
-| GLM 5.2 | cheaper implementation passes or broad code edits | Keep file boundaries explicit. |
+| Codex CLI | terminal work, tests, long implementation loops | Record the active model in the lane. |
+| Claude | careful code reasoning and review-heavy work | Still runs as Sol, Terra, or Luna. |
+| GLM | cheaper implementation passes or broad code edits | Keep file boundaries explicit. |
 | Kimi | large-repo reading and mechanical changes | Keep gates external and locked. |
 | DeepSeek | batch implementation and transformations | Require raw evidence. |
 | Qwen | broad edits and multilingual codebases | Require exact file ownership. |
-| Another LLM | whatever it is good or cheap at | It remains a worker engine. |
+| Another LLM or tool | whatever it is good or cheap at | It remains a worker engine. |
 
 ## Adapter Template
 

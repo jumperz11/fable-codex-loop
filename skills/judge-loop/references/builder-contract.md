@@ -1,7 +1,7 @@
 # Prompt 02 - Worker Contract
 
-Fable adapts this block for Sol, Terra, or Luna. GPT-5.5 Codex is the default
-engine, but the worker identity and authority never change.
+Fable adapts this block for Sol, Terra, or Luna. Record the active model or tool;
+the worker identity and authority never change with the engine.
 
 ```txt
 /goal: execute Fable's frozen slice.
